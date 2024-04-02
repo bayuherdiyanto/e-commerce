@@ -1,0 +1,2 @@
+ALTER TABLE `sma_categories` ADD `status_online` VARCHAR(100) NULL DEFAULT '0' AFTER `cust_point`, ADD `status_home` VARCHAR(100) NULL DEFAULT '0' AFTER `status_online`;
+ALTER TABLE `sma_categories` ADD `warna_bg` VARCHAR(100) NULL AFTER `status_home`;

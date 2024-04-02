@@ -1,0 +1,3 @@
+ALTER TABLE `sma_products` ADD `image1` VARCHAR(200) NULL AFTER `sale_only`, ADD `image2` VARCHAR(200) NULL AFTER `image1`, ADD `image3` VARCHAR(200) NULL AFTER `image2`, ADD `image4` VARCHAR(200) NULL AFTER `image3`;
+ALTER TABLE `sma_products` ADD `status_online` VARCHAR(100) NULL DEFAULT '0' AFTER `image4`;
+ALTER TABLE `sma_products` ADD `status_atas` VARCHAR(100) NOT NULL DEFAULT '0' AFTER `status_online`;
