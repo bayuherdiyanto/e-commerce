@@ -69,6 +69,21 @@ watch([search, status_online], (value) => {
         }
     );
 });
+
+function changeProduct(id){
+    Inertia.get(
+        "/detail/"+id,
+        { 
+           
+        },
+        {
+            onFinish: () => {
+                
+            },
+            preserveState: true,
+        }
+    );
+}
 </script>
 
 <template>
@@ -110,7 +125,7 @@ watch([search, status_online], (value) => {
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-4 grid-flow-row gap-4 gap-4">
-                <div v-for="(item, index) in product.data" :key="item.id" class="relative flex flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
+                <div v-for="(item, index) in product.data" :key="item.id" @click="changeProduct(item.id)" class="relative flex flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
                     <div class="relative mx-3 mt-3 h-44 overflow-hidden rounded-xl bg-white bg-clip-border text-gray-700">
                         <img :src="route('image', { 'jenis' : 'product1' , 'id' : item.id })" class="h-full w-full object-cover" />
                     </div>
@@ -134,7 +149,7 @@ watch([search, status_online], (value) => {
             <h3 class="font-bold text-[20px] mb-2">Kategori</h3>
 
             <div class="grid grid-cols-1 md:grid-cols-1 grid-flow-row gap-2">
-                <div :class="(category_name=='') ? 'bg-blue-500 text-white' : 'bg-white text-gray-700'" class="p-2 relative flex flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
+                <div :class="(category_name=='') ? 'bg-blue-500 text-white' : 'bg-white text-gray-700'" class="p-2 relative flex flex-col rounded-xl bg-clip-border text-gray-700 shadow-md">
                     <div @click="changeKategory('')" class="pl-3 font-bold">
                         Semua Kategori
                     </div>

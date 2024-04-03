@@ -30,6 +30,7 @@ use App\Http\Controllers\CategoryController;
 Route::get('/', [MarketController::class, 'index'])->name('market');
 Route::get('/kategori', [MarketController::class, 'kategory'])->name('kategori');
 Route::get('/produk', [MarketController::class, 'product'])->name('produk');
+Route::get('/detail/{id}', [MarketController::class, 'detailProduct'])->name('detailProduct');
 Route::get('/image/{jenis}/{id}', [ProductController::class, 'image'])->name('image');
 
 Route::get('/dashboard', function () {
@@ -49,4 +50,4 @@ Route::middleware('auth', 'verified')->group(function () {
 });
 
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
