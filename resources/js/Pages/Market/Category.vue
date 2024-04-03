@@ -5,10 +5,6 @@ import Header from '@/Components/Header.vue';
 import { Inertia } from '@inertiajs/inertia';
 
 const props = defineProps({
-    canLogin: Boolean,
-    canRegister: Boolean,
-    laravelVersion: String,
-    phpVersion: String,
     category: Object,
     product: Object,
     category_id: String,

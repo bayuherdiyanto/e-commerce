@@ -1,0 +1,2 @@
+CREATE TABLE `e-commerce`.`com-keranjang` ( `id` INT(100) NOT NULL AUTO_INCREMENT , `kode` VARCHAR(100) NULL , `tanggal` VARCHAR(100) NULL , `nama` VARCHAR(100) NULL , `kode_pelanggan` VARCHAR(100) NULL , `no_telepon` VARCHAR(100) NULL , `alamat` TEXT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB; 
+ALTER TABLE `com-keranjang` ADD `status` VARCHAR(100) NULL AFTER `alamat`; 

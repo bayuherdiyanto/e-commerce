@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Promo;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
 
@@ -94,7 +95,6 @@ class MarketController extends Controller
             // 'status_home',
             'warna_bg'
         )->where('status_online', 1)->get();
-
 
         return Inertia::render('Market/Category', [
             'search' => $keyword,
@@ -200,6 +200,25 @@ class MarketController extends Controller
         return Inertia::render('Market/Detail', [
             'product' => $product,
             'qty' => 0
+        ]);
+    }
+
+    public function promo()
+    {
+        $promo = Promo::select(
+            'name',
+            'start_date',
+            'end_date',
+            'note'
+        )->get();
+
+        foreach ($promo as $row) {
+            $row->start_date = date('d F Y', strtotime($row->start_date));
+            $row->end_date = date('d F Y', strtotime($row->end_date));
+        }
+
+        return Inertia::render('Market/Promo', [
+            'promo' => $promo
         ]);
     }
 }

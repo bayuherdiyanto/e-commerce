@@ -970,6 +970,9 @@ select {
 .w-3\/4 {
   width: 75%;
 }
+.w-40 {
+  width: 10rem;
+}
 .max-w-6xl {
   max-width: 72rem;
 }
@@ -1410,6 +1413,9 @@ select {
   font-size: 0.75rem;
   line-height: 1rem;
 }
+.text-\[4px\] {
+  font-size: 4px;
+}
 .font-bold {
   font-weight: 700;
 }
@@ -1502,6 +1508,9 @@ select {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+.text-\[4px\;\] {
+  color: 4px;;
 }
 .underline {
   text-decoration-line: underline;
