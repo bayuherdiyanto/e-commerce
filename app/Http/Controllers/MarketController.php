@@ -10,6 +10,9 @@ use App\Models\Category;
 use App\Models\Promo;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
+use App\Models\Keranjang;
+use App\Models\KeranjangDetail;
 
 class MarketController extends Controller
 {
@@ -220,5 +223,44 @@ class MarketController extends Controller
         return Inertia::render('Market/Promo', [
             'promo' => $promo
         ]);
+    }
+
+    public function addKeranjang(Request $request)
+    {
+        $keranjang_id = session()->get('keranjang');
+        $keranjang = Keranjang::find($keranjang_id);
+        if (!$keranjang) {
+            $kode = $this->unique_code(10);
+            $data = [
+                'kode' => $kode,
+                'tanggal' => date("Y-m-d H:i:s"),
+                'nama' => "",
+                'kode_pelanggan' => "",
+                'no_telepon' => "",
+                'alamat' => "",
+                'status' => 0
+            ];
+            $keranjang = Keranjang::updateOrCreate(['kode' => $kode], $data);
+            // session()->put('hello', 'hello');
+            session()->put('keranjang', $keranjang->id);
+        }
+        // dd($request->all());
+        if ($request->qty && $request->qty > 0) {
+            $product = Product::find($request->product_id);
+            if ($product) {
+                $data = [
+                    'id_keranjang' => $keranjang->id,
+                    'item_id' => $product->id,
+                    'item_name' => $product->nama,
+                    'qty' => $request->qty
+                ];
+                KeranjangDetail::updateOrCreate(['id_keranjang' => $keranjang->id, 'item_id' => $product->id], $data);
+            }
+        }
+    }
+
+    private function unique_code($limit)
+    {
+        return substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, $limit);
     }
 }

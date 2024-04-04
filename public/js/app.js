@@ -26483,6 +26483,15 @@ __webpack_require__.r(__webpack_exports__);
         qty.value = qty.value - 1;
       }
     }
+    function addKeranjang() {
+      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_3__.Inertia.post("/addKeranjang", {
+        qty: qty.value,
+        product_id: props.product.id
+      }, {
+        onFinish: function onFinish() {},
+        preserveState: true
+      });
+    }
     var __returned__ = {
       props: props,
       main: main,
@@ -26500,6 +26509,7 @@ __webpack_require__.r(__webpack_exports__);
       changeQty: changeQty,
       tambahQty: tambahQty,
       kurangQty: kurangQty,
+      addKeranjang: addKeranjang,
       get Head() {
         return _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_0__.Head;
       },
@@ -28809,9 +28819,7 @@ var _hoisted_17 = {
 var _hoisted_18 = {
   "class": "w-20"
 };
-var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-  "class": "flex gap-4 px-5 bg-blue-500 font-bold py-3 text-white mt-2 rounded-lg"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Tambah Keranjang "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
+var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
   xmlns: "http://www.w3.org/2000/svg",
   fill: "none",
   viewBox: "0 0 24 24",
@@ -28822,7 +28830,7 @@ var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
   "stroke-linecap": "round",
   "stroke-linejoin": "round",
   d: "M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
-})])])], -1 /* HOISTED */);
+})], -1 /* HOISTED */);
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Head"], {
     title: "Kategori"
@@ -28953,7 +28961,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     onClick: $setup.tambahQty,
     "class": "flex items-center justify-center bg-white border rounded-r-lg border-[#c9c9c9] w-10"
-  }, " + ")]), _hoisted_19])])])])], 64 /* STABLE_FRAGMENT */);
+  }, " + ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: $setup.addKeranjang,
+    "class": "flex gap-4 px-5 bg-blue-500 font-bold py-3 text-white mt-2 rounded-lg"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Tambah Keranjang "), _hoisted_19])])])])])])], 64 /* STABLE_FRAGMENT */);
 }
 
 /***/ }),
