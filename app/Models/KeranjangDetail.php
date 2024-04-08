@@ -15,6 +15,13 @@ class KeranjangDetail extends Model
         'id_keranjang',
         'item_id',
         'item_name',
-        'qty'
+        'harga',
+        'qty',
+        'total'
     ];
+
+    public function product()
+    {
+        return $this->belongsTo('App\Models\Product', 'item_id', 'id');
+    }
 }

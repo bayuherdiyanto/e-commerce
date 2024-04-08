@@ -18,6 +18,7 @@ class Keranjang extends Model
         'kode_pelanggan',
         'no_telepon',
         'alamat',
+        'total',
         'status'
     ];
 }

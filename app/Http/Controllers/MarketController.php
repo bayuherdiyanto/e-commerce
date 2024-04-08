@@ -251,12 +251,38 @@ class MarketController extends Controller
                 $data = [
                     'id_keranjang' => $keranjang->id,
                     'item_id' => $product->id,
-                    'item_name' => $product->nama,
-                    'qty' => $request->qty
+                    'item_name' => $product->name,
+                    'qty' => $request->qty,
+                    'harga' => $product->price,
+                    'total' => $request->qty * $product->price
                 ];
                 KeranjangDetail::updateOrCreate(['id_keranjang' => $keranjang->id, 'item_id' => $product->id], $data);
             }
         }
+
+        $totalBelanja = KeranjangDetail::selectRaw('sum(total) as total')->where('id_keranjang', $keranjang->id)->first();
+        if ($totalBelanja) {
+            $keranjang->total = $totalBelanja->total;
+            $keranjang->save();
+        }
+
+        return Redirect::route('detailProduct', [
+            'id' => $request->product_id
+        ]);
+    }
+
+    public function keranjang()
+    {
+        $keranjang_id = session()->get('keranjang');
+        $keranjang = Keranjang::find($keranjang_id);
+        $keranjangDetail = KeranjangDetail::where('id_keranjang', $keranjang_id)->with('product')->get();
+
+
+
+        return Inertia::render('Market/Keranjang', [
+            'keranjang' => $keranjang,
+            'keranjangDetail' => $keranjangDetail
+        ]);
     }
 
     private function unique_code($limit)
