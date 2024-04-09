@@ -26589,12 +26589,14 @@ __webpack_require__.r(__webpack_exports__);
   __name: 'Keranjang',
   props: {
     keranjang: Object,
-    keranjangDetail: Object
+    keranjangDetail: Object,
+    textWa: String
   },
   setup: function setup(__props, _ref) {
     var __expose = _ref.expose;
     __expose();
     var props = __props;
+    var linkWa = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(props.textWa);
     function number_format(number, decimals, dec_point, thousands_sep) {
       // Strip all characters but numerical ones.
       number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
@@ -26618,9 +26620,14 @@ __webpack_require__.r(__webpack_exports__);
       }
       return s.join(dec);
     }
+    function checkout() {
+      window.open(linkWa.value, '_blank');
+    }
     var __returned__ = {
       props: props,
+      linkWa: linkWa,
       number_format: number_format,
+      checkout: checkout,
       get Head() {
         return _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_0__.Head;
       },
@@ -29147,9 +29154,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "class": "h-full w-full object-cover"
     }, null, 8 /* PROPS */, _hoisted_7)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, "Nama : " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.item_name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, "Harga : " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.number_format(item.product.price, 2, ',', '.')), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, "Jumlah : " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.number_format(item.qty, 2, ',', '.')), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, "Total : " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.number_format(item.total, 2, ',', '.')), 1 /* TEXT */)]), _hoisted_12]);
   }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [_hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.keranjang.total), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[0] || (_cache[0] = function () {
-      return _ctx.addKeranjang && _ctx.addKeranjang.apply(_ctx, arguments);
-    }),
+    onClick: $setup.checkout,
     "class": "w-full gap-4 px-5 bg-blue-500 font-bold py-3 text-white mt-2 rounded-lg"
   }, " Lanjut Pembelian ")])])])])], 64 /* STABLE_FRAGMENT */);
 }

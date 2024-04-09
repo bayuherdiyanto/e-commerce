@@ -6,8 +6,11 @@ import { Inertia } from '@inertiajs/inertia';
 
 const props = defineProps({
     keranjang: Object,
-    keranjangDetail: Object
+    keranjangDetail: Object,
+    textWa : String,
 });
+
+const linkWa = ref(props.textWa);
 
 function number_format (number, decimals, dec_point, thousands_sep) {
     // Strip all characters but numerical ones.
@@ -31,6 +34,10 @@ function number_format (number, decimals, dec_point, thousands_sep) {
         s[1] += new Array(prec - s[1].length + 1).join('0');
     }
     return s.join(dec);
+}
+
+function checkout(){
+    window.open(linkWa.value, '_blank');
 }
 </script>
 
@@ -72,7 +79,7 @@ function number_format (number, decimals, dec_point, thousands_sep) {
                     <div>{{ keranjang.total }}</div>
                 </div>
                 <div>
-                    <button @click="addKeranjang" class="w-full gap-4 px-5 bg-blue-500 font-bold py-3 text-white mt-2  rounded-lg">
+                    <button @click="checkout" class="w-full gap-4 px-5 bg-blue-500 font-bold py-3 text-white mt-2  rounded-lg">
                         Lanjut Pembelian
                     </button>
                 </div>

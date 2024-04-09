@@ -277,16 +277,110 @@ class MarketController extends Controller
         $keranjang = Keranjang::find($keranjang_id);
         $keranjangDetail = KeranjangDetail::where('id_keranjang', $keranjang_id)->with('product')->get();
 
-
+        $textWa = $this->generateTextWa($keranjang, $keranjangDetail);
 
         return Inertia::render('Market/Keranjang', [
             'keranjang' => $keranjang,
-            'keranjangDetail' => $keranjangDetail
+            'keranjangDetail' => $keranjangDetail,
+            'textWa' => $textWa
         ]);
     }
 
     private function unique_code($limit)
     {
         return substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, $limit);
+    }
+
+    private function generateTextWa($keranjang, $keranjangDetail)
+    {
+        $countLengthName = 0;
+        $countLengthPrice = 0;
+        $countLengthTotal = 0;
+        foreach ($keranjangDetail as $row) {
+            $countLengthNameValue = strlen($row->item_name);
+            if ($countLengthNameValue > $countLengthName) {
+                $countLengthName = $countLengthNameValue;
+            }
+
+            $countLengthPriceValue = strlen($row->harga);
+            if ($countLengthPriceValue > $countLengthPrice) {
+                $countLengthPrice = $countLengthPriceValue;
+            }
+
+            $countLengthTotalValue = strlen($row->total);
+            if ($countLengthTotalValue > $countLengthTotal) {
+                $countLengthTotal = $countLengthTotalValue;
+            }
+        }
+        $totalSpace = $countLengthName + $countLengthPrice + $countLengthTotal + 11;
+        if ($totalSpace % 2 == 1) {
+            $totalSpace++;
+            $countLengthTotal++;
+        }
+        // dd($totalSpace);
+        $stipeText = "";
+        for ($i = 0; $i < $totalSpace; $i++) {
+            $stipeText .= "-";
+        }
+        // dd($totalSpace);
+        $textWa  = "https://web.whatsapp.com/send/?phone=6281313026017&text=%60%60%60";
+
+        $nospaceJudul = $totalSpace - strlen("TOKO MAJU");
+        $nospaceJudul = ($nospaceJudul / 2) - 2;
+        $nospaceJudul = number_format($nospaceJudul, 0, '', '');
+        $spaceJudul = "+";
+        for ($i = 0; $i < $nospaceJudul; $i++) {
+            $spaceJudul .= "+";
+        }
+        $textWa .= $spaceJudul . "TOKO MAJU" . $spaceJudul . "%0A";
+
+        $nospaceJudul = $totalSpace - strlen("Fax%3A085777388308");
+        $nospaceJudul = $nospaceJudul / 2;
+        $nospaceJudul = number_format($nospaceJudul, 0, '', '');
+        $spaceJudul = "+";
+        for ($i = 0; $i < $nospaceJudul; $i++) {
+            $spaceJudul .= "+";
+        }
+        $textWa .= $spaceJudul . "Fax%3A085777388308" . $spaceJudul . "%0A";
+        $textWa .= $stipeText . "%0A";
+        $textWa .= "No.%3A0004%2FPJ%2FUTM%2F0223++%0A";
+        $textWa .= "Tgl:" . date("d F Y H:i:s") . "%0A";
+        $textWa .= "Ksr%3AADMIN+++++++++++++%0A";
+        $textWa .= "Pel%3AVID+00002+-+CUSTOM%0A";
+        $textWa .= $stipeText . "%0A";
+        // $textWa .= "45+MM++875%2C000+x1++%3D+++8%2C750%2C000%0A";
+        // $textWa .= "BUSBAR+0+++++++x1++%3D+++++++++++0%0A";
+        // $textWa .= "BLOK+E+0+++++++x1++%3D+++++++++++0%0A";
+
+        foreach ($keranjangDetail as $row) {
+            $space1 = "+";
+            $lengthName = $countLengthName - strlen($row->item_name);
+            for ($i = 0; $i < $lengthName; $i++) {
+                $space1 .= "+";
+            }
+
+            $space2 = "+";
+            $lengthPrice = $countLengthPrice - strlen($row->harga);
+            for ($i = 0; $i < $lengthPrice; $i++) {
+                $space2 .= "+";
+            }
+
+            $space3 = "+";
+            $lengthTotal = $countLengthTotal - strlen($row->total);
+            for ($i = 0; $i < $lengthTotal; $i++) {
+                $space3 .= "+";
+            }
+            $textWa .= $row->item_name . $space1 . $row->harga . $space2 . " x " . $row->qty . " = " . $space3 . $row->total . "0%0A";
+        }
+        $textWa .= $stipeText . "%0A";
+        $textWa .= "BRS%3D3++QTY%3D3++++++++8%2C750%0A";
+        $textWa .= $stipeText . "%0A";
+        $textWa .= "Kekurangan++%3D+++++++8%2C750%0A";
+        $textWa .= "+++++++++++++++++++++++++%0A";
+        $textWa .= "Cetak:" . date("d F Y H:i:s");
+        // %3A28%2F02%2F23+10%3A36%3A32
+        $textWa .= "%60%60%60";
+
+        return $textWa;
     }
 }
