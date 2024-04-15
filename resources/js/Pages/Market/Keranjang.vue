@@ -8,6 +8,24 @@ const props = defineProps({
     keranjang: Object,
     keranjangDetail: Object,
     textWa : String,
+    kodePelanggan: String,
+    noHp: String
+});
+
+let kodePelanggan = ref(props.kodePelanggan);
+let noHp = ref(props.noHp);
+
+watch([kodePelanggan, noHp], (value) => {
+    Inertia.post(
+        "/keranjang",
+        { 
+            kodePelanggan: value[0],
+            noHp: value[1]
+        },
+        {
+            preserveState: true,
+        }
+    );
 });
 
 const linkWa = ref(props.textWa);
@@ -74,6 +92,24 @@ function checkout(){
                 </div>
             </div>
             <div class="w-1/3 mb-5 md:mb-0 p-4 relative flex flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
+                <div class="flex mb-3 gap-5">
+                    <div class="w-1/3">Tipe Pelanggn</div>
+                    <div class="w-2/3">
+                        <input type="text" value="" class="shadow bg-[#dbdbdb] appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" disabled>
+                    </div>
+                </div>
+                <div class="flex mb-3 gap-5">
+                    <div class="w-1/3">Kode Pelanggan</div>
+                    <div class="w-2/3">
+                        <input type="text" v-model.lazy="kodePelanggan" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    </div>
+                </div>
+                <div class="flex mb-3 gap-5">
+                    <div class="w-1/3">No Hp</div>
+                    <div class="w-2/3">
+                        <input type="text" v-model.lazy="noHp"  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    </div>
+                </div>
                 <div class="flex justify-between">
                     <div>Total Belanja : </div>
                     <div>{{ keranjang.total }}</div>

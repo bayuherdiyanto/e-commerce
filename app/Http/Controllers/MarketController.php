@@ -54,6 +54,7 @@ class MarketController extends Controller
             ->orderBy('sma_products.status_atas', 'desc')
             ->paginate(10);
 
+       
 
         $category = Category::select(
             'id',
@@ -271,13 +272,22 @@ class MarketController extends Controller
         ]);
     }
 
-    public function keranjang()
+    public function keranjang(Request $request): Response
     {
         $keranjang_id = session()->get('keranjang');
         $keranjang = Keranjang::find($keranjang_id);
         $keranjangDetail = KeranjangDetail::where('id_keranjang', $keranjang_id)->with('product')->get();
 
         $textWa = $this->generateTextWa($keranjang, $keranjangDetail);
+
+        if ($request->kodePelanggan) {
+            $kodePelanggan = $request->kodePelanggan;
+        }
+
+        if ($request->noHp) {
+            $noHp = $request->noHp;
+            dd($noHp);
+        }
 
         return Inertia::render('Market/Keranjang', [
             'keranjang' => $keranjang,
@@ -352,6 +362,9 @@ class MarketController extends Controller
         // $textWa .= "BUSBAR+0+++++++x1++%3D+++++++++++0%0A";
         // $textWa .= "BLOK+E+0+++++++x1++%3D+++++++++++0%0A";
 
+        $totalItem  = 0;
+        $totalBrs   = 0;
+
         foreach ($keranjangDetail as $row) {
             $space1 = "+";
             $lengthName = $countLengthName - strlen($row->item_name);
@@ -371,11 +384,26 @@ class MarketController extends Controller
                 $space3 .= "+";
             }
             $textWa .= $row->item_name . $space1 . $row->harga . $space2 . " x " . $row->qty . " = " . $space3 . $row->total . "0%0A";
+            $totalItem+=$row->qty;
+            $totalBrs++;
         }
         $textWa .= $stipeText . "%0A";
-        $textWa .= "BRS%3D3++QTY%3D3++++++++8%2C750%0A";
+        $nospaceJudul = $totalSpace - strlen("BRS=".$totalBrs."++QTY=".$totalItem."+8.7500");
+        $nospaceJudul = number_format($nospaceJudul, 0, '', '');
+        $spaceJudul = "+";
+        for ($i = 0; $i < $nospaceJudul; $i++) {
+            $spaceJudul .= "+";
+        }
+        $textWa .= "BRS=".$totalBrs."++QTY=".$totalItem."+".$spaceJudul."8.750%0A";
         $textWa .= $stipeText . "%0A";
-        $textWa .= "Kekurangan++%3D+++++++8%2C750%0A";
+
+        $nospaceJudul = $totalSpace - strlen("Kekurangan++8.750");
+        $nospaceJudul = number_format($nospaceJudul, 0, '', '');
+        $spaceJudul = "";
+        for ($i = 0; $i < $nospaceJudul; $i++) {
+            $spaceJudul .= "+";
+        }
+        $textWa .= "Kekurangan++".$spaceJudul."8.750%0A";
         $textWa .= "+++++++++++++++++++++++++%0A";
         $textWa .= "Cetak:" . date("d F Y H:i:s");
         // %3A28%2F02%2F23+10%3A36%3A32
