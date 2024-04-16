@@ -9,7 +9,9 @@ const props = defineProps({
     keranjangDetail: Object,
     textWa : String,
     kodePelanggan: String,
-    noHp: String
+    noHp: String,
+    customer: Object,
+    tipeCustomer: String
 });
 
 let kodePelanggan = ref(props.kodePelanggan);
@@ -55,8 +57,72 @@ function number_format (number, decimals, dec_point, thousands_sep) {
 }
 
 function checkout(){
-    window.open(linkWa.value, '_blank');
+    Inertia.post(
+        "/checkout",
+        { 
+            kodePelanggan: props.kodePelanggan,
+            noHp: props.noHp
+        },
+        {
+            onFinish: () => {
+                window.open(linkWa.value, '_blank');
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Success',
+                })
+            },
+            preserveState: true,
+        }
+    );
+    
 }
+
+function deleteKeranjang(product_id){
+    Swal.fire({
+        title: "Hapus Barang ?",
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: "Hapus",
+    }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+            Inertia.post(
+                "/deleteKeranjang",
+                { 
+                    product_id: product_id
+                },
+                {
+                    onFinish: () => {
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Success',
+                        })
+                    },
+                    preserveState: true,
+                }
+            );
+        } else if (result.isDenied) {
+            Swal.fire("Changes are not saved", "", "info");
+        }
+    });
+    
+    
+}
+
+var Toast = Swal.mixin({
+    toast: true,
+    icon: 'success',
+    title: 'General Title',
+    animation: false,
+    position: 'top-right',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+});
 </script>
 
 <template>
@@ -82,8 +148,8 @@ function checkout(){
                         <div>Catatan</div>
                         <div class="flex">
                             <textarea class="w-full"></textarea>
-                            <button class="w-20 flex justify-center items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <button @click="deleteKeranjang(item.item_id)" class="w-20 flex justify-center items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="#ffffff" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ff0000" class="w-6 h-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
                                 </svg>
                             </button>
@@ -95,7 +161,7 @@ function checkout(){
                 <div class="flex mb-3 gap-5">
                     <div class="w-1/3">Tipe Pelanggn</div>
                     <div class="w-2/3">
-                        <input type="text" value="" class="shadow bg-[#dbdbdb] appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" disabled>
+                        <input type="text" :value="tipeCustomer" class="shadow bg-[#dbdbdb] appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" disabled>
                     </div>
                 </div>
                 <div class="flex mb-3 gap-5">

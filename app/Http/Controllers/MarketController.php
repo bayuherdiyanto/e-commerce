@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use App\Models\Keranjang;
 use App\Models\KeranjangDetail;
+use App\Models\Customers;
+use App\Models\SellingOrder;
+use App\Models\SellingOrderDetail;
+use App\Models\OrderRef;
+use App\Models\WareHouse;
 
 class MarketController extends Controller
 {
@@ -272,6 +277,15 @@ class MarketController extends Controller
         ]);
     }
 
+    public function deleteKeranjang(Request $request)
+    {
+        $keranjang_id = session()->get('keranjang');
+        $product_id = $request->product_id;
+        KeranjangDetail::where("id_keranjang", $keranjang_id)->where("item_id",$product_id)->delete();
+
+        return Redirect::route('keranjang');
+    }
+
     public function keranjang(Request $request): Response
     {
         $keranjang_id = session()->get('keranjang');
@@ -280,20 +294,102 @@ class MarketController extends Controller
 
         $textWa = $this->generateTextWa($keranjang, $keranjangDetail);
 
+        $kodePelanggan = "";
         if ($request->kodePelanggan) {
             $kodePelanggan = $request->kodePelanggan;
         }
 
+        $noHp = "";
         if ($request->noHp) {
             $noHp = $request->noHp;
-            dd($noHp);
+        }
+
+        $customer = [];
+        $tipeCustomer = "Umum";
+        if ($request->kodePelanggan && $request->noHp) {
+            $customer = Customers::where("kode_customer", $request->kodePelanggan)
+                ->where("phone",$request->noHp)->first();
+            if($customer){
+                $tipeCustomer = $customer->name;
+            }
+                
         }
 
         return Inertia::render('Market/Keranjang', [
             'keranjang' => $keranjang,
             'keranjangDetail' => $keranjangDetail,
-            'textWa' => $textWa
+            'textWa' => $textWa,
+            'kodePelanggan' => $kodePelanggan,
+            'noHp' => $noHp,
+            'customer' => $customer,
+            'tipeCustomer' => $tipeCustomer
         ]);
+    }
+
+    public function checkout(Request $request){
+        $keranjang_id = session()->get('keranjang');
+        $keranjang = Keranjang::find($keranjang_id);
+        $keranjangDetail = KeranjangDetail::where("id_keranjang", $keranjang_id)->get();
+
+        $orderRef = OrderRef::find(1);
+        if($request->kodePelanggan && $request->noHp){
+            $customer = Customers::where("kode_customer", $request->kodePelanggan)
+                ->where("phone",$request->noHp)->first();
+        } else {
+            $customer = Customers::find(1);
+        }
+        
+        $warehouse = WareHouse::find(1);
+
+        $data = [
+            'date' => date("Y-m-d H:i:s"),
+            'reference_no' => "SO/01/".date("Y"). sprintf('%04s', $orderRef->so),
+            'customer_id' => $customer->id,
+            'customer' => $customer->company && $customer->company != '-' ? $customer->company : $customer->name,
+            'warehouse_id' => $warehouse->id,
+            'warehouse' => $warehouse->name != '' ? $warehouse->name : '',
+            'biller_id' => $customer->id,
+            'biller' => $customer->company && $customer->company != '-' ? $customer->company : $customer->name,
+            'note' => '',
+            'internal_note' => '',
+            'total' => $keranjang->total,
+            'grand_total' => $keranjang->total,
+            'created_by' => 1,
+            'type' => 'so',
+            'marketing' => '',
+            'tgl_po_kirim' => date("Y-m-d H:i:s"),
+            'tax_metod_pembelian' => 0,
+            'tax_metod_penjualan' => 0,
+            'id_tax_pembelian' => 1,
+            'id_tax_penjualan' => 1,
+            'footer_pmp_info_purchase' => '',
+            'term_condition' => '',
+            'alamat_kirim_supplier' => '',
+            'ekspedisi' => '',
+            'purchase_reference_no'=> ''
+        ];
+        $sellingOrder = SellingOrder::create($data);
+
+        foreach ($keranjangDetail as $row) {
+            $produk = Product::find($row->item_id);
+            $detail = [
+                'quote_id' => $sellingOrder->id,
+                'product_id' => $produk->id,
+                'product_code' => $produk->code,
+                'product_name' => $produk->name,
+                'product_type' => $produk->tipe,
+                'net_unit_price' => $produk->price,
+                'quantity' => $row->qty,
+                'discount2' => '',
+                'discount3' => '',
+                'discount4' => '',
+                'subtotal' => $row->total,
+                'unit_quantity' => $row->qty,
+                'unit_quantity_order' => $row->qty,
+            ];
+
+            SellingOrderDetail::create($detail);
+        }
     }
 
     private function unique_code($limit)
