@@ -11,7 +11,10 @@ const props = defineProps({
     status_online: String,
     category_name: String,
     category_id: String
-})
+});
+
+const tidakTersedia = new URL("../../../images/tidak_tersedia.jpg", import.meta.url);
+
 const menuToogle = ref(false);
 function number_format (number, decimals, dec_point, thousands_sep) {
     // Strip all characters but numerical ones.
@@ -127,7 +130,8 @@ function changeProduct(id){
             <div class="grid grid-cols-1 md:grid-cols-4 grid-flow-row gap-4 gap-4">
                 <div v-for="(item, index) in product.data" :key="item.id" @click="changeProduct(item.id)" class="relative flex flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
                     <div class="relative mx-3 mt-3 h-44 overflow-hidden rounded-xl bg-white bg-clip-border text-gray-700">
-                        <img :src="route('image', { 'jenis' : 'product1' , 'id' : item.id })" class="h-full w-full object-cover" />
+                        <img  v-if="item.image1" :src="route('image', { 'jenis' : 'product1' , 'id' : item.id })" class="h-full w-full object-cover" />
+                        <img v-else :src="tidakTersedia.href" >
                     </div>
                     <div class="p-3">
                         <div >

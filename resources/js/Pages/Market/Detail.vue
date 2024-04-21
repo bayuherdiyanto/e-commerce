@@ -135,19 +135,19 @@ function addKeranjang(){
             <div class="col-span-2">
                 <div class="mb-5">
                     <Splide aria-labelledby="thumbnail-example-heading" :options="mainOptions" ref="main" >
-                        <SplideSlide >
+                        <SplideSlide v-if="product.image1">
                             <img :src="route('image', { 'jenis' : 'product1' , 'id' : product.id })" class="h-full w-full object-cover" />
                         </SplideSlide>
 
-                        <SplideSlide >
+                        <SplideSlide v-if="product.image2">
                             <img :src="route('image', { 'jenis' : 'product2' , 'id' : product.id })" class="h-full w-full object-cover" />
                         </SplideSlide>
 
-                        <SplideSlide >
+                        <SplideSlide v-if="product.image3">
                             <img :src="route('image', { 'jenis' : 'product3' , 'id' : product.id })" class="h-full w-full object-cover" />
                         </SplideSlide>
 
-                        <SplideSlide >
+                        <SplideSlide v-if="product.image4">
                             <img :src="route('image', { 'jenis' : 'product4' , 'id' : product.id })" class="h-full w-full object-cover" />
                         </SplideSlide>
                     </Splide>
@@ -158,19 +158,19 @@ function addKeranjang(){
                         :options="thumbsOptions"
                         ref="thumbs"
                     >
-                        <SplideSlide >
+                        <SplideSlide v-if="product.image1">
                             <img :src="route('image', { 'jenis' : 'product1' , 'id' : product.id })" class="h-full w-full object-cover" />
                         </SplideSlide>
 
-                        <SplideSlide >
+                        <SplideSlide  v-if="product.image2">
                             <img :src="route('image', { 'jenis' : 'product2' , 'id' : product.id })" class="h-full w-full object-cover" />
                         </SplideSlide>
 
-                        <SplideSlide >
+                        <SplideSlide v-if="product.image3">
                             <img :src="route('image', { 'jenis' : 'product3' , 'id' : product.id })" class="h-full w-full object-cover" />
                         </SplideSlide>
 
-                        <SplideSlide >
+                        <SplideSlide v-if="product.image4">
                             <img :src="route('image', { 'jenis' : 'product4' , 'id' : product.id })" class="h-full w-full object-cover" />
                         </SplideSlide>
                     </Splide>

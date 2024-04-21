@@ -5,6 +5,9 @@ import Header from '@/Components/Header.vue';
 import Pagination from '@/Components/Pagination.vue';
 import { Inertia } from '@inertiajs/inertia';
 
+const tidakTersedia = new URL("../../../images/tidak_tersedia.jpg", import.meta.url);
+
+
 defineProps({
     category: Object,
     product: Object,
@@ -51,6 +54,21 @@ function changeKategory(category_id){
         }
     );
 }
+
+function changeProduct(id){
+    Inertia.get(
+        "/detail/"+id,
+        { 
+           
+        },
+        {
+            onFinish: () => {
+                
+            },
+            preserveState: true,
+        }
+    );
+}
 </script>
 
 <template>
@@ -80,9 +98,10 @@ function changeKategory(category_id){
         <h2 class="font-bold text-[30px]">Produk</h2>
 
         <div class="grid grid-cols-1 md:grid-cols-5 grid-flow-row gap-4 gap-4">
-            <div v-for="(item, index) in product.data" :key="item.id" class="relative flex flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
+            <div v-for="(item, index) in product.data" :key="item.id" @click="changeProduct(item.id)" class="relative flex flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
                 <div class="relative mx-3 mt-3 h-48 overflow-hidden rounded-xl bg-white bg-clip-border text-gray-700">
-                    <img :src="route('image', { 'jenis' : 'product1' , 'id' : item.id })" class="h-full w-full object-cover" />
+                    <img v-if="item.image1" :src="route('image', { 'jenis' : 'product1' , 'id' : item.id })" class="h-full w-full object-cover" />
+                    <img v-else :src="tidakTersedia.href" />
                 </div>
                 <div class="p-3">
                     <div >

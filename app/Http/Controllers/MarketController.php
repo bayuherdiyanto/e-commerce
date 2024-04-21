@@ -290,6 +290,9 @@ class MarketController extends Controller
     {
         $keranjang_id = session()->get('keranjang');
         $keranjang = Keranjang::find($keranjang_id);
+        if(!$keranjang){
+            $keranjang['total'] =0;
+        }
         $keranjangDetail = KeranjangDetail::where('id_keranjang', $keranjang_id)->with('product')->get();
 
         $textWa = $this->generateTextWa($keranjang, $keranjangDetail);
@@ -343,7 +346,7 @@ class MarketController extends Controller
 
         $data = [
             'date' => date("Y-m-d H:i:s"),
-            'reference_no' => "SO/01/".date("Y"). sprintf('%04s', $orderRef->so),
+            'reference_no' => "SO/WEB/01/".date("Y").'/'. sprintf('%04s', $orderRef->so_web),
             'customer_id' => $customer->id,
             'customer' => $customer->company && $customer->company != '-' ? $customer->company : $customer->name,
             'warehouse_id' => $warehouse->id,
@@ -370,6 +373,10 @@ class MarketController extends Controller
         ];
         $sellingOrder = SellingOrder::create($data);
 
+        $orderRef = OrderRef::find(1);
+        $orderRef->so_web = $orderRef->so_web+1;
+        $orderRef->save();
+
         foreach ($keranjangDetail as $row) {
             $produk = Product::find($row->item_id);
             $detail = [
@@ -379,6 +386,8 @@ class MarketController extends Controller
                 'product_name' => $produk->name,
                 'product_type' => $produk->tipe,
                 'net_unit_price' => $produk->price,
+                'unit_price' => $produk->price,
+                'real_unit_price' => $produk->price,
                 'quantity' => $row->qty,
                 'discount2' => '',
                 'discount3' => '',
@@ -390,6 +399,8 @@ class MarketController extends Controller
 
             SellingOrderDetail::create($detail);
         }
+
+        return Redirect::route('keranjang');
     }
 
     private function unique_code($limit)
@@ -429,7 +440,7 @@ class MarketController extends Controller
             $stipeText .= "-";
         }
         // dd($totalSpace);
-        $textWa  = "https://web.whatsapp.com/send/?phone=6281313026017&text=%60%60%60";
+        $textWa  = "https://api.whatsapp.com/send/?phone=6281313026017&text=%60%60%60";
 
         $nospaceJudul = $totalSpace - strlen("TOKO MAJU");
         $nospaceJudul = ($nospaceJudul / 2) - 2;

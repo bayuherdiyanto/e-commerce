@@ -92,9 +92,15 @@ const showingNavigationDropdown = ref(false);
                         </div>
 
                         <div class="mt-3 space-y-1">
-                            <BreezeResponsiveNavLink :href="route('logout')" method="post" as="button">
-                                Log Out
+                            <BreezeResponsiveNavLink :href="route('listProduct')" method="get" as="button" class="w-full text-left">
+                                Produk
                             </BreezeResponsiveNavLink>
+                            <BreezeResponsiveNavLink :href="route('listCategory')" method="get" as="button" class="w-full text-left">
+                                Categori
+                            </BreezeResponsiveNavLink>
+                            <BreezeResponsiveNavLink :href="route('logout')" method="post" as="button" class="w-full text-left">
+                                Log Out
+                            </BreezeResponsiveNavLink> 
                         </div>
                     </div>
                 </div>
