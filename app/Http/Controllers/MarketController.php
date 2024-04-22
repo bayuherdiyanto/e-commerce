@@ -17,6 +17,7 @@ use App\Models\Customers;
 use App\Models\SellingOrder;
 use App\Models\SellingOrderDetail;
 use App\Models\OrderRef;
+use App\Models\Setting;
 use App\Models\WareHouse;
 use App\Models\SmaSetting;
 
@@ -306,8 +307,8 @@ class MarketController extends Controller
         }
         $keranjangDetail = KeranjangDetail::where('id_keranjang', $keranjang_id)->with('product')->get();
 
-        $smaSetting = SmaSetting::find(1);
-        $textWa = $this->generateTextWa($keranjang, $keranjangDetail, $smaSetting);
+        $setting = Setting::find(1);
+        $textWa = $this->generateTextWa($keranjang, $keranjangDetail, $setting);
 
         $kodePelanggan = "";
         if ($request->kodePelanggan) {
@@ -329,7 +330,7 @@ class MarketController extends Controller
             }
         }
 
-
+        $smaSetting = SmaSetting::find(1);
         return Inertia::render('Market/Keranjang', [
             'keranjang' => $keranjang,
             'keranjangDetail' => $keranjangDetail,
@@ -356,11 +357,12 @@ class MarketController extends Controller
             $customer = Customers::find(1);
         }
 
-        $warehouse = WareHouse::find(1);
+        $setting = Setting::find(1);
+        $warehouse = WareHouse::find($setting->gudang);
 
         $data = [
             'date' => date("Y-m-d H:i:s"),
-            'reference_no' => "SO/WEB/01/" . date("Y") . '/' . sprintf('%04s', $orderRef->so_web),
+            'reference_no' => "SO/WEB/" . $warehouse->id . "/" . date("Y") . '/' . sprintf('%04s', $orderRef->so_web),
             'customer_id' => $customer->id,
             'customer' => $customer->company && $customer->company != '-' ? $customer->company : $customer->name,
             'warehouse_id' => $warehouse->id,
@@ -422,7 +424,7 @@ class MarketController extends Controller
         return substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, $limit);
     }
 
-    private function generateTextWa($keranjang, $keranjangDetail, $smaSetting)
+    private function generateTextWa($keranjang, $keranjangDetail, $setting)
     {
         $countLengthName = 0;
         $countLengthPrice = 0;
@@ -454,7 +456,7 @@ class MarketController extends Controller
             $stipeText .= "-";
         }
         // dd($totalSpace);
-        $textWa  = "https://api.whatsapp.com/send/?phone=" . $smaSetting->no_wa . "&text=%60%60%60";
+        $textWa  = "https://api.whatsapp.com/send/?phone=" . $setting->no_wa . "&text=%60%60%60";
 
         $nospaceJudul = $totalSpace - strlen("TOKO MAJU");
         $nospaceJudul = ($nospaceJudul / 2) - 2;
