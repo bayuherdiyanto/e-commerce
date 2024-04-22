@@ -26643,7 +26643,6 @@ __webpack_require__.r(__webpack_exports__);
         noHp: props.noHp
       }, {
         onFinish: function onFinish() {
-          window.open(linkWa.value, '_blank');
           Toast.fire({
             icon: 'success',
             title: 'Success'
@@ -26651,6 +26650,9 @@ __webpack_require__.r(__webpack_exports__);
         },
         preserveState: true
       });
+    }
+    function sendWa() {
+      window.open(linkWa.value, '_blank');
     }
     function deleteKeranjang(product_id) {
       Swal.fire({
@@ -26708,6 +26710,7 @@ __webpack_require__.r(__webpack_exports__);
       linkWa: linkWa,
       number_format: number_format,
       checkout: checkout,
+      sendWa: sendWa,
       deleteKeranjang: deleteKeranjang,
       get Toast() {
         return Toast;
@@ -29505,10 +29508,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.noHp, void 0, {
     lazy: true
-  }]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [_hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.keranjang.total), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [_hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.keranjang.total), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [$props.tipeCustomer != 'Umum' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    key: 0,
     onClick: $setup.checkout,
     "class": "w-full gap-4 px-5 bg-blue-500 font-bold py-3 text-white mt-2 rounded-lg"
-  }, " Lanjut Pembelian ")])])])])], 64 /* STABLE_FRAGMENT */);
+  }, " Lanjut Order ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: $setup.sendWa,
+    "class": "w-full gap-4 px-5 bg-blue-500 font-bold py-3 text-white mt-2 rounded-lg"
+  }, " Kirim WA ")])])])])], 64 /* STABLE_FRAGMENT */);
 }
 
 /***/ }),

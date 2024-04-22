@@ -66,7 +66,6 @@ function checkout(){
         },
         {
             onFinish: () => {
-                window.open(linkWa.value, '_blank');
                 Toast.fire({
                     icon: 'success',
                     title: 'Success',
@@ -74,8 +73,11 @@ function checkout(){
             },
             preserveState: true,
         }
-    );
-    
+    ); 
+}
+
+function sendWa(){
+    window.open(linkWa.value, '_blank');
 }
 
 function deleteKeranjang(product_id){
@@ -182,8 +184,12 @@ var Toast = Swal.mixin({
                     <div>{{ keranjang.total }}</div>
                 </div>
                 <div>
-                    <button @click="checkout" class="w-full gap-4 px-5 bg-blue-500 font-bold py-3 text-white mt-2  rounded-lg">
-                        Lanjut Pembelian
+                    <button v-if="tipeCustomer!='Umum'" @click="checkout" class="w-full gap-4 px-5 bg-blue-500 font-bold py-3 text-white mt-2  rounded-lg">
+                        Lanjut Order
+                    </button>
+
+                    <button @click="sendWa" class="w-full gap-4 px-5 bg-blue-500 font-bold py-3 text-white mt-2  rounded-lg">
+                        Kirim WA
                     </button>
                 </div>
             </div>

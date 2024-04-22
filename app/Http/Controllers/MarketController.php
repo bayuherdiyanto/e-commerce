@@ -246,7 +246,7 @@ class MarketController extends Controller
     public function addKeranjang(Request $request)
     {
         $keranjang_id = session()->get('keranjang');
-        $keranjang = Keranjang::find($keranjang_id);
+        $keranjang = Keranjang::where("id", $keranjang_id)->where("status", 0)->first();
         if (!$keranjang) {
             $kode = $this->unique_code(10);
             $data = [
@@ -301,11 +301,14 @@ class MarketController extends Controller
     public function keranjang(Request $request): Response
     {
         $keranjang_id = session()->get('keranjang');
-        $keranjang = Keranjang::find($keranjang_id);
+        $keranjang = Keranjang::where("id", $keranjang_id)->where("status", 0)->first();
+        $keranjangDetail = [];
         if (!$keranjang) {
             $keranjang['total'] = 0;
+        } else {
+            $keranjangDetail = KeranjangDetail::where('id_keranjang', $keranjang_id)->with('product')->get();
         }
-        $keranjangDetail = KeranjangDetail::where('id_keranjang', $keranjang_id)->with('product')->get();
+
 
         $setting = Setting::find(1);
         $textWa = $this->generateTextWa($keranjang, $keranjangDetail, $setting);
@@ -415,6 +418,9 @@ class MarketController extends Controller
 
             SellingOrderDetail::create($detail);
         }
+
+        $keranjang->status = 1;
+        $keranjang->save();
 
         return Redirect::route('keranjang');
     }
