@@ -306,7 +306,8 @@ class MarketController extends Controller
         }
         $keranjangDetail = KeranjangDetail::where('id_keranjang', $keranjang_id)->with('product')->get();
 
-        $textWa = $this->generateTextWa($keranjang, $keranjangDetail);
+        $smaSetting = SmaSetting::find(1);
+        $textWa = $this->generateTextWa($keranjang, $keranjangDetail, $smaSetting);
 
         $kodePelanggan = "";
         if ($request->kodePelanggan) {
@@ -328,7 +329,7 @@ class MarketController extends Controller
             }
         }
 
-        $smaSetting = SmaSetting::find(1);
+
         return Inertia::render('Market/Keranjang', [
             'keranjang' => $keranjang,
             'keranjangDetail' => $keranjangDetail,
@@ -421,7 +422,7 @@ class MarketController extends Controller
         return substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, $limit);
     }
 
-    private function generateTextWa($keranjang, $keranjangDetail)
+    private function generateTextWa($keranjang, $keranjangDetail, $smaSetting)
     {
         $countLengthName = 0;
         $countLengthPrice = 0;
@@ -453,7 +454,7 @@ class MarketController extends Controller
             $stipeText .= "-";
         }
         // dd($totalSpace);
-        $textWa  = "https://api.whatsapp.com/send/?phone=6281313026017&text=%60%60%60";
+        $textWa  = "https://api.whatsapp.com/send/?phone=" . $smaSetting->no_wa . "&text=%60%60%60";
 
         $nospaceJudul = $totalSpace - strlen("TOKO MAJU");
         $nospaceJudul = ($nospaceJudul / 2) - 2;
