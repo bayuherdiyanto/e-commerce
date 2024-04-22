@@ -6,7 +6,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\MarketController;
 use App\Http\Controllers\CategoryController;
-
+use App\Http\Controllers\SettingController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -36,7 +36,7 @@ Route::get('/image/{jenis}/{id}', [ProductController::class, 'image'])->name('im
 Route::post('/addKeranjang', [MarketController::class, 'addKeranjang'])->name('addKeranjang');
 Route::post('/deleteKeranjang', [MarketController::class, 'deleteKeranjang'])->name('deleteKeranjang');
 Route::post('/checkout', [MarketController::class, 'checkout'])->name('checkout');
-Route::match(['get', 'post'],'/keranjang', [MarketController::class, 'keranjang'])->name('keranjang');
+Route::match(['get', 'post'], '/keranjang', [MarketController::class, 'keranjang'])->name('keranjang');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -52,6 +52,9 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::post('/categoryStatusOnline', [CategoryController::class, 'changeStatusOnline'])->name('categoryStatusOnline');
     Route::post('/categoryStatusAtas', [CategoryController::class, 'changeStatusAtas'])->name('categoryStatusAtas');
     Route::post('/categoryWarna', [CategoryController::class, 'categoryWarna'])->name('categoryWarna');
+
+    Route::get('/setting', [SettingController::class, 'index'])->name('setting');
+    Route::post('storeSetting', [SettingController::class, 'store'])->name('storeSetting');
 });
 
 

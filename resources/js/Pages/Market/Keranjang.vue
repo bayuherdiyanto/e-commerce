@@ -132,10 +132,10 @@ var Toast = Swal.mixin({
     <div class="w-full px-5 md:px-20 pt-14 bg-[#f0f0f0] pb-20">
         <h2 class="font-bold text-[30px]">Keranjang Belanja</h2>
 
-        <div class="flex gap-10">
-            <div class="w-2/3">
+        <div class="md:flex gap-10">
+            <div class="w-full md:w-2/3">
                 <div v-for="(item, index) in keranjangDetail" :key="item.id" class="w-full  mb-5 p-4 relative rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
-                    <div class="flex gap-5 mb-5">
+                    <div class="md:flex gap-5 mb-5">
                          <div class="w-40">
                             <img :src="route('image', { 'jenis' : 'product1' , 'id' : item.product.id })" class="h-full w-full object-cover" />
                         </div>
@@ -157,7 +157,7 @@ var Toast = Swal.mixin({
                     </div>
                 </div>
             </div>
-            <div class="w-1/3 mb-5 md:mb-0 p-4 relative flex flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
+            <div class="w-full md:w-1/3 mb-5 md:mb-0 p-4 relative flex flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
                 <div class="flex mb-3 gap-5">
                     <div class="w-1/3">Tipe Pelanggn</div>
                     <div class="w-2/3">

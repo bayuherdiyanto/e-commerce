@@ -36,6 +36,9 @@ const showingNavigationDropdown = ref(false);
                                 <BreezeNavLink :href="route('listCategory')" :active="route().current('listCategory')">
                                     Categori
                                 </BreezeNavLink>
+                                <BreezeNavLink :href="route('setting')" :active="route().current('setting')">
+                                    Setting
+                                </BreezeNavLink>
                             </div>
                         </div>
 
@@ -97,6 +100,9 @@ const showingNavigationDropdown = ref(false);
                             </BreezeResponsiveNavLink>
                             <BreezeResponsiveNavLink :href="route('listCategory')" method="get" as="button" class="w-full text-left">
                                 Categori
+                            </BreezeResponsiveNavLink>
+                            <BreezeResponsiveNavLink :href="route('setting')" method="get" as="button" class="w-full text-left">
+                                Setting
                             </BreezeResponsiveNavLink>
                             <BreezeResponsiveNavLink :href="route('logout')" method="post" as="button" class="w-full text-left">
                                 Log Out

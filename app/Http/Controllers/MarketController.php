@@ -59,7 +59,7 @@ class MarketController extends Controller
             ->orderBy('sma_products.status_atas', 'desc')
             ->paginate(10);
 
-       
+
 
         $category = Category::select(
             'id',
@@ -281,7 +281,7 @@ class MarketController extends Controller
     {
         $keranjang_id = session()->get('keranjang');
         $product_id = $request->product_id;
-        KeranjangDetail::where("id_keranjang", $keranjang_id)->where("item_id",$product_id)->delete();
+        KeranjangDetail::where("id_keranjang", $keranjang_id)->where("item_id", $product_id)->delete();
 
         return Redirect::route('keranjang');
     }
@@ -290,8 +290,8 @@ class MarketController extends Controller
     {
         $keranjang_id = session()->get('keranjang');
         $keranjang = Keranjang::find($keranjang_id);
-        if(!$keranjang){
-            $keranjang['total'] =0;
+        if (!$keranjang) {
+            $keranjang['total'] = 0;
         }
         $keranjangDetail = KeranjangDetail::where('id_keranjang', $keranjang_id)->with('product')->get();
 
@@ -311,11 +311,10 @@ class MarketController extends Controller
         $tipeCustomer = "Umum";
         if ($request->kodePelanggan && $request->noHp) {
             $customer = Customers::where("kode_customer", $request->kodePelanggan)
-                ->where("phone",$request->noHp)->first();
-            if($customer){
+                ->where("phone", $request->noHp)->first();
+            if ($customer) {
                 $tipeCustomer = $customer->name;
             }
-                
         }
 
         return Inertia::render('Market/Keranjang', [
@@ -329,24 +328,25 @@ class MarketController extends Controller
         ]);
     }
 
-    public function checkout(Request $request){
+    public function checkout(Request $request)
+    {
         $keranjang_id = session()->get('keranjang');
         $keranjang = Keranjang::find($keranjang_id);
         $keranjangDetail = KeranjangDetail::where("id_keranjang", $keranjang_id)->get();
 
         $orderRef = OrderRef::find(1);
-        if($request->kodePelanggan && $request->noHp){
+        if ($request->kodePelanggan && $request->noHp) {
             $customer = Customers::where("kode_customer", $request->kodePelanggan)
-                ->where("phone",$request->noHp)->first();
+                ->where("phone", $request->noHp)->first();
         } else {
             $customer = Customers::find(1);
         }
-        
+
         $warehouse = WareHouse::find(1);
 
         $data = [
             'date' => date("Y-m-d H:i:s"),
-            'reference_no' => "SO/WEB/01/".date("Y").'/'. sprintf('%04s', $orderRef->so_web),
+            'reference_no' => "SO/WEB/01/" . date("Y") . '/' . sprintf('%04s', $orderRef->so_web),
             'customer_id' => $customer->id,
             'customer' => $customer->company && $customer->company != '-' ? $customer->company : $customer->name,
             'warehouse_id' => $warehouse->id,
@@ -369,12 +369,12 @@ class MarketController extends Controller
             'term_condition' => '',
             'alamat_kirim_supplier' => '',
             'ekspedisi' => '',
-            'purchase_reference_no'=> ''
+            'purchase_reference_no' => ''
         ];
         $sellingOrder = SellingOrder::create($data);
 
         $orderRef = OrderRef::find(1);
-        $orderRef->so_web = $orderRef->so_web+1;
+        $orderRef->so_web = $orderRef->so_web + 1;
         $orderRef->save();
 
         foreach ($keranjangDetail as $row) {
@@ -491,17 +491,17 @@ class MarketController extends Controller
                 $space3 .= "+";
             }
             $textWa .= $row->item_name . $space1 . $row->harga . $space2 . " x " . $row->qty . " = " . $space3 . $row->total . "0%0A";
-            $totalItem+=$row->qty;
+            $totalItem += $row->qty;
             $totalBrs++;
         }
         $textWa .= $stipeText . "%0A";
-        $nospaceJudul = $totalSpace - strlen("BRS=".$totalBrs."++QTY=".$totalItem."+8.7500");
+        $nospaceJudul = $totalSpace - strlen("BRS=" . $totalBrs . "++QTY=" . $totalItem . "+8.7500");
         $nospaceJudul = number_format($nospaceJudul, 0, '', '');
         $spaceJudul = "+";
         for ($i = 0; $i < $nospaceJudul; $i++) {
             $spaceJudul .= "+";
         }
-        $textWa .= "BRS=".$totalBrs."++QTY=".$totalItem."+".$spaceJudul."8.750%0A";
+        $textWa .= "BRS=" . $totalBrs . "++QTY=" . $totalItem . "+" . $spaceJudul . "8.750%0A";
         $textWa .= $stipeText . "%0A";
 
         $nospaceJudul = $totalSpace - strlen("Kekurangan++8.750");
@@ -510,7 +510,7 @@ class MarketController extends Controller
         for ($i = 0; $i < $nospaceJudul; $i++) {
             $spaceJudul .= "+";
         }
-        $textWa .= "Kekurangan++".$spaceJudul."8.750%0A";
+        $textWa .= "Kekurangan++" . $spaceJudul . "8.750%0A";
         $textWa .= "+++++++++++++++++++++++++%0A";
         $textWa .= "Cetak:" . date("d F Y H:i:s");
         // %3A28%2F02%2F23+10%3A36%3A32
