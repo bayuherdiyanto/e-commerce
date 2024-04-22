@@ -11,7 +11,8 @@ const props = defineProps({
     kodePelanggan: String,
     noHp: String,
     customer: Object,
-    tipeCustomer: String
+    tipeCustomer: String,
+    smaSetting: Object
 });
 
 let kodePelanggan = ref(props.kodePelanggan);
@@ -127,7 +128,7 @@ var Toast = Swal.mixin({
 
 <template>
     <Head title="Kategori" />
-    <Header :category_id="category_id" :search="search" />
+    <Header :category_id="category_id" :search="search" :smaSetting="smaSetting" />
     <!-- Kategori -->
     <div class="w-full px-5 md:px-20 pt-14 bg-[#f0f0f0] pb-20">
         <h2 class="font-bold text-[30px]">Keranjang Belanja</h2>

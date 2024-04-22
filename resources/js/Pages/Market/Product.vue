@@ -10,7 +10,8 @@ const props = defineProps({
     search: String,
     status_online: String,
     category_name: String,
-    category_id: String
+    category_id: String,
+    smaSetting: Object
 });
 
 const tidakTersedia = new URL("../../../images/tidak_tersedia.jpg", import.meta.url);
@@ -91,7 +92,7 @@ function changeProduct(id){
 
 <template>
     <Head title="Produk" />
-    <Header :category_id="category_id" :search="props.search" />
+    <Header :category_id="category_id" :search="props.search" :smaSetting="smaSetting" />
     
     <!-- Produk -->
     <div class="md:hidden w-full px-5 md:px-20 md:pt-14 pb-3 ">

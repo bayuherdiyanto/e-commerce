@@ -8,7 +8,8 @@ import { defineComponent, onMounted } from 'vue';
 
 const props = defineProps({
     product: Object,
-    qty : String
+    qty : String,
+    smaSetting: Object
 });
 
 const main   = ref();
@@ -127,7 +128,7 @@ function addKeranjang(){
 
 <template>
     <Head title="Kategori" />
-    <Header :category_id="category_id" :search="search" />
+    <Header :category_id="category_id" :search="search" :smaSetting="smaSetting" />
     <!-- Kategori -->
     <div class="w-full px-5 md:px-20 pt-14 bg-[#f0f0f0] pb-20">
 

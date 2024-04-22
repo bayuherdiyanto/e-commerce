@@ -18,6 +18,7 @@ use App\Models\SellingOrder;
 use App\Models\SellingOrderDetail;
 use App\Models\OrderRef;
 use App\Models\WareHouse;
+use App\Models\SmaSetting;
 
 class MarketController extends Controller
 {
@@ -72,12 +73,14 @@ class MarketController extends Controller
             ->where('status_home', 1)->get();
 
 
+        $smaSetting = SmaSetting::find(1);
         return Inertia::render('Market/Main', [
             'product' => $product,
             'search' => $keyword,
             'status_online' => $status_online,
             'category' => $category,
-            'category_id' => $category_id
+            'category_id' => $category_id,
+            'smaSetting' => $smaSetting
         ]);
     }
 
@@ -105,7 +108,9 @@ class MarketController extends Controller
             'warna_bg'
         )->where('status_online', 1)->get();
 
+        $smaSetting = SmaSetting::find(1);
         return Inertia::render('Market/Category', [
+            'smaSetting' => $smaSetting,
             'search' => $keyword,
             'status_online' => $status_online,
             'category' => $category,
@@ -169,13 +174,15 @@ class MarketController extends Controller
             }
         }
         // dd($keyword);
+        $smaSetting = SmaSetting::find(1);
         return Inertia::render('Market/Product', [
             'product' => $product,
             'search' => $keyword,
             'status_online' => $status_online,
             'category' => $category,
             'category_name' => $category_name,
-            'category_id' => $category_id
+            'category_id' => $category_id,
+            'smaSetting' => $smaSetting
         ]);
     }
 
@@ -206,9 +213,11 @@ class MarketController extends Controller
 
         // dd($product);
 
+        $smaSetting = SmaSetting::find(1);
         return Inertia::render('Market/Detail', [
             'product' => $product,
-            'qty' => 0
+            'qty' => 0,
+            'smaSetting' => $smaSetting
         ]);
     }
 
@@ -226,8 +235,10 @@ class MarketController extends Controller
             $row->end_date = date('d F Y', strtotime($row->end_date));
         }
 
+        $smaSetting = SmaSetting::find(1);
         return Inertia::render('Market/Promo', [
-            'promo' => $promo
+            'promo' => $promo,
+            'smaSetting' => $smaSetting
         ]);
     }
 
@@ -317,6 +328,7 @@ class MarketController extends Controller
             }
         }
 
+        $smaSetting = SmaSetting::find(1);
         return Inertia::render('Market/Keranjang', [
             'keranjang' => $keranjang,
             'keranjangDetail' => $keranjangDetail,
@@ -324,7 +336,8 @@ class MarketController extends Controller
             'kodePelanggan' => $kodePelanggan,
             'noHp' => $noHp,
             'customer' => $customer,
-            'tipeCustomer' => $tipeCustomer
+            'tipeCustomer' => $tipeCustomer,
+            'smaSetting' => $smaSetting
         ]);
     }
 

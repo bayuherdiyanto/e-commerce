@@ -25239,10 +25239,10 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __name: 'Header',
-  props: _defineProperty({
+  props: _defineProperty(_defineProperty({
     category_id: String,
     search: String
-  }, "category_id", String),
+  }, "category_id", String), "smaSetting", Object),
   setup: function setup(__props, _ref) {
     var __expose = _ref.expose;
     __expose();
@@ -26314,7 +26314,8 @@ __webpack_require__.r(__webpack_exports__);
     category: Object,
     product: Object,
     category_id: String,
-    search: String
+    search: String,
+    smaSetting: Object
   },
   setup: function setup(__props, _ref) {
     var __expose = _ref.expose;
@@ -26406,7 +26407,8 @@ __webpack_require__.r(__webpack_exports__);
   __name: 'Detail',
   props: {
     product: Object,
-    qty: String
+    qty: String,
+    smaSetting: Object
   },
   setup: function setup(__props, _ref) {
     var __expose = _ref.expose;
@@ -26594,7 +26596,8 @@ __webpack_require__.r(__webpack_exports__);
     kodePelanggan: String,
     noHp: String,
     customer: Object,
-    tipeCustomer: String
+    tipeCustomer: String,
+    smaSetting: Object
   },
   setup: function setup(__props, _ref) {
     var __expose = _ref.expose;
@@ -26762,13 +26765,13 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __name: 'Main',
-  props: _defineProperty({
+  props: _defineProperty(_defineProperty({
     category: Object,
     product: Object,
     search: String,
     status_online: String,
     category_id: String
-  }, "search", String),
+  }, "search", String), "smaSetting", Object),
   setup: function setup(__props, _ref) {
     var __expose = _ref.expose;
     __expose();
@@ -26870,7 +26873,8 @@ __webpack_require__.r(__webpack_exports__);
     search: String,
     status_online: String,
     category_name: String,
-    category_id: String
+    category_id: String,
+    smaSetting: Object
   },
   setup: function setup(__props, _ref) {
     var __expose = _ref.expose;
@@ -26999,7 +27003,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __name: 'Promo',
   props: {
-    promo: Object
+    promo: Object,
+    smaSetting: Object
   },
   setup: function setup(__props, _ref) {
     var __expose = _ref.expose;
@@ -27678,7 +27683,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     href: _ctx.route('market')
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" TOKO MAJU ")];
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.smaSetting.site_name), 1 /* TEXT */)];
     }),
     _: 1 /* STABLE */
   }, 8 /* PROPS */, ["href"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
@@ -29120,8 +29125,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     title: "Kategori"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Header"], {
     category_id: $props.category_id,
-    search: $props.search
-  }, null, 8 /* PROPS */, ["category_id", "search"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Kategori "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.category, function (item, index) {
+    search: $props.search,
+    smaSetting: $props.smaSetting
+  }, null, 8 /* PROPS */, ["category_id", "search", "smaSetting"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Kategori "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.category, function (item, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: item.id
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
@@ -29202,8 +29208,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     title: "Kategori"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Header"], {
     category_id: _ctx.category_id,
-    search: _ctx.search
-  }, null, 8 /* PROPS */, ["category_id", "search"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Kategori "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Splide"], {
+    search: _ctx.search,
+    smaSetting: $props.smaSetting
+  }, null, 8 /* PROPS */, ["category_id", "search", "smaSetting"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Kategori "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Splide"], {
     "aria-labelledby": "thumbnail-example-heading",
     options: $setup.mainOptions,
     ref: "main"
@@ -29459,8 +29466,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     title: "Kategori"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Header"], {
     category_id: _ctx.category_id,
-    search: _ctx.search
-  }, null, 8 /* PROPS */, ["category_id", "search"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Kategori "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.keranjangDetail, function (item, index) {
+    search: _ctx.search,
+    smaSetting: $props.smaSetting
+  }, null, 8 /* PROPS */, ["category_id", "search", "smaSetting"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Kategori "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.keranjangDetail, function (item, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: item.id,
       "class": "w-full mb-5 p-4 relative rounded-xl bg-white bg-clip-border text-gray-700 shadow-md"
@@ -29566,8 +29574,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     title: "Home"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Header"], {
     category_id: $props.category_id,
-    search: $props.search
-  }, null, 8 /* PROPS */, ["category_id", "search"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Kategori "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.category, function (item, index) {
+    search: $props.search,
+    smaSetting: $props.smaSetting
+  }, null, 8 /* PROPS */, ["category_id", "search", "smaSetting"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Kategori "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.category, function (item, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: item.id
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
@@ -29719,8 +29728,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     title: "Produk"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Header"], {
     category_id: $setup.category_id,
-    search: $setup.props.search
-  }, null, 8 /* PROPS */, ["category_id", "search"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Produk "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    search: $setup.props.search,
+    smaSetting: $props.smaSetting
+  }, null, 8 /* PROPS */, ["category_id", "search", "smaSetting"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Produk "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $setup.search = $event;
     }),
@@ -29838,8 +29848,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     title: "Kategori"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Header"], {
     category_id: _ctx.category_id,
-    search: _ctx.search
-  }, null, 8 /* PROPS */, ["category_id", "search"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Kategori "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.promo, function (item, index) {
+    search: _ctx.search,
+    smaSetting: $props.smaSetting
+  }, null, 8 /* PROPS */, ["category_id", "search", "smaSetting"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Kategori "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.promo, function (item, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: item.id
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_hoisted_5, _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, " Berlaku sampai : " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.end_date), 1 /* TEXT */)])]);

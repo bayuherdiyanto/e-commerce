@@ -6,7 +6,8 @@ import { Inertia } from '@inertiajs/inertia';
 const props = defineProps({
     category_id: String,
     search: String,
-    category_id: String
+    category_id: String,
+    smaSetting: Object
 });
 
 function changeKategory(category_id){
@@ -50,7 +51,7 @@ const menuToogle = ref(false);
         <div class="w-1/2 flex items-center gap-10 ">
             <div class="font-bold text-white">
                 <Link :href="route('market')">
-                    TOKO MAJU
+                    {{ smaSetting.site_name }}
                 </Link>
             </div>
             <div class="hidden w-1/2 md:flex bg-[#d9d9d9] rounded-lg pl-2 py-0" style="border-radius:var(--Default-Border-Raius, 4px); border:1px solid var(--Light-Border, #E2E4EA); background:var(--Dominant, #FFF);">

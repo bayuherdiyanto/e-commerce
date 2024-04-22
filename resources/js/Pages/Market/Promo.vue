@@ -6,12 +6,13 @@ import { Inertia } from '@inertiajs/inertia';
 
 const props = defineProps({
     promo: Object,
+    smaSetting: Object
 })
 </script>
 
 <template>
     <Head title="Kategori" />
-    <Header :category_id="category_id" :search="search" />
+    <Header :category_id="category_id" :search="search" :smaSetting="smaSetting" />
     <!-- Kategori -->
     <div class="w-full px-5 md:px-20 pt-14 bg-[#f0f0f0] pb-20">
         <h2 class="font-bold text-[30px]">Voucher</h2>
