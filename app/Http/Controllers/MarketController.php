@@ -20,6 +20,8 @@ use App\Models\OrderRef;
 use App\Models\Setting;
 use App\Models\WareHouse;
 use App\Models\SmaSetting;
+use App\Models\ProductPrices;
+use App\Models\PromoDetail;
 
 class MarketController extends Controller
 {
@@ -320,20 +322,86 @@ class MarketController extends Controller
         $kodePelanggan = "";
         if ($request->kodePelanggan) {
             $kodePelanggan = $request->kodePelanggan;
+            session()->put('kodePelanggan', $kodePelanggan);
+        } else {
+            $kodePelanggan = session()->get('kodePelanggan');
         }
 
         $noHp = "";
         if ($request->noHp) {
             $noHp = $request->noHp;
+            session()->put('noHp', $noHp);
+        } else {
+            $noHp = session()->get('noHp');
+        }
+
+        $promo = "";
+        if ($request->promo) {
+            $promo = $request->promo;
+            session()->put('promo', $promo);
+        } else {
+            $promo = session()->get('promo');
+        }
+
+        if ($promo) {
+            $dataPromo = Promo::where("name", $promo)->first();
+            $itemPromo = PromoDetail::join('com-detail_keranjang', 'com-promo_detail.product_id', '=', 'com-detail_keranjang.item_id')
+                ->where("diskon_bertingkat_id", $dataPromo->id)
+                ->where('id_keranjang', $keranjang_id)
+                ->get();
+            foreach ($itemPromo as $row) {
+                $diskon1 = 0;
+                $diskon2 = 0;
+                $diskon3 = 0;
+                $diskon4 = 0;
+
+                if ($row->harga > 0) {
+                    if ($dataPromo->discount > 0) {
+                        $diskon1 = ($row->harga * $dataPromo->discount);
+                    }
+
+                    if ($dataPromo->discount2 > 0) {
+                        $diskon2 = ($row->harga * $dataPromo->discount2);
+                    }
+
+                    if ($dataPromo->discount2 > 0) {
+                        $diskon3 = ($row->harga * $dataPromo->discount3);
+                    }
+
+                    if ($dataPromo->discount2 > 0) {
+                        $diskon4 = ($row->harga * $dataPromo->discount4);
+                    }
+
+                    $row->diskon = $row->harga - $diskon1 - $diskon2 - $diskon3 - $diskon4;
+                    $row->save();
+                }
+            }
         }
 
         $customer = [];
-        $tipeCustomer = "Umum";
-        if ($request->kodePelanggan && $request->noHp) {
-            $customer = Customers::where("kode_customer", $request->kodePelanggan)
-                ->where("phone", $request->noHp)->first();
+        $tipeCustomer = "";
+        if ($kodePelanggan && $noHp) {
+            $customer = Customers::where("kode_customer", $kodePelanggan)
+                ->where("phone", $noHp)->first();
             if ($customer) {
                 $tipeCustomer = $customer->name;
+
+                // price_group_id
+
+                foreach ($keranjangDetail as $row) {
+                    $productPrice = ProductPrices::where("price_group_id", $customer->price_group_id)
+                        ->where('product_id', $row->item_id)
+                        ->first();
+
+                    if ($productPrice) {
+                        $row->harga = $productPrice->price;
+                        $row->save();
+                    } else {
+                        $row->harga = 0;
+                        $row->save();
+                    }
+                }
+                $keranjangDetail = KeranjangDetail::where('id_keranjang', $keranjang_id)->with('product')->get();
             }
         }
 
@@ -344,6 +412,7 @@ class MarketController extends Controller
             'textWa' => $textWa,
             'kodePelanggan' => $kodePelanggan,
             'noHp' => $noHp,
+            'promo' => $promo,
             'customer' => $customer,
             'tipeCustomer' => $tipeCustomer,
             'smaSetting' => $smaSetting,

@@ -10,6 +10,7 @@ const props = defineProps({
     textWa : String,
     kodePelanggan: String,
     noHp: String,
+    promo: String,
     customer: Object,
     tipeCustomer: String,
     smaSetting: Object,
@@ -18,13 +19,15 @@ const props = defineProps({
 
 let kodePelanggan = ref(props.kodePelanggan);
 let noHp = ref(props.noHp);
+let promo = ref(props.promo);
 
-watch([kodePelanggan, noHp], (value) => {
+watch([kodePelanggan, noHp, promo], (value) => {
     Inertia.post(
         "/keranjang",
         { 
             kodePelanggan: value[0],
-            noHp: value[1]
+            noHp: value[1],
+            promo: value[2]
         },
         {
             preserveState: true,
@@ -219,7 +222,8 @@ function tambahQty(detail_id){
                 <div class="flex mb-3 gap-5">
                     <div class="w-1/3">Tipe Pelanggn</div>
                     <div class="w-2/3">
-                        <input type="text" :value="tipeCustomer" class="shadow bg-[#dbdbdb] appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" disabled>
+                        <input v-if="tipeCustomer" type="text" :value="tipeCustomer" class="shadow bg-[#dbdbdb] appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" disabled>
+                        <input v-else type="text" :value="'Umum'" class="shadow bg-[#dbdbdb] appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" disabled>
                     </div>
                 </div>
                 <div class="flex mb-3 gap-5">
@@ -234,12 +238,18 @@ function tambahQty(detail_id){
                         <input type="text" v-model.lazy="noHp"  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                     </div>
                 </div>
+                <div class="flex mb-3 gap-5">
+                    <div class="w-1/3">Promo</div>
+                    <div class="w-2/3">
+                        <input type="text" v-model.lazy="promo"  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    </div>
+                </div>
                 <div class="flex justify-between">
                     <div>Total Belanja : </div>
                     <div>{{ keranjang.total }}</div>
                 </div>
                 <div>
-                    <button v-if="tipeCustomer!='Umum'" @click="checkout" class="w-full gap-4 px-5 bg-blue-500 font-bold py-3 text-white mt-2  rounded-lg">
+                    <button v-if="tipeCustomer" @click="checkout" class="w-full gap-4 px-5 bg-blue-500 font-bold py-3 text-white mt-2  rounded-lg">
                         Lanjut Order
                     </button>
 
