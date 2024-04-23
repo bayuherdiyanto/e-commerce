@@ -98,15 +98,15 @@ function changeProduct(id){
     <div class="w-full px-5 md:px-20 pt-14 pb-20 bg-[#f0f0f0]">
         <h2 class="font-bold text-[30px]">Produk</h2>
 
-        <div class="grid grid-cols-1 md:grid-cols-5 grid-flow-row gap-4 gap-4">
+        <div class="grid grid-cols-2 md:grid-cols-5 grid-flow-row gap-4 gap-4">
             <div v-for="(item, index) in product.data" :key="item.id" @click="changeProduct(item.id)" class="relative flex flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
-                <div class="relative mx-3 mt-3 h-48 overflow-hidden rounded-xl bg-white bg-clip-border text-gray-700">
+                <div class="relative mx-3 mt-3 h-32 md:h-48 overflow-hidden rounded-xl bg-white bg-clip-border text-gray-700">
                     <img v-if="item.image1" :src="route('image', { 'jenis' : 'product1' , 'id' : item.id })" class="h-full w-full object-cover" />
                     <img v-else :src="tidakTersedia.href" />
                 </div>
                 <div class="p-3">
                     <div >
-                        <div class="block text-[14px]  h-12 font-sans text-base font-medium leading-relaxed text-blue-gray-900 antialiased">
+                        <div class="block text-[12px] md:text-[14px] h-12 font-sans text-base font-medium leading-relaxed text-blue-gray-900 antialiased">
                             {{ item.name }}
                         </div>
                         <div class="font-bold block font-sans text-base leading-relaxed text-blue-gray-900 antialiased">

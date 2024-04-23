@@ -29653,11 +29653,11 @@ var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
   "class": "font-bold text-[30px]"
 }, "Produk", -1 /* HOISTED */);
 var _hoisted_9 = {
-  "class": "grid grid-cols-1 md:grid-cols-5 grid-flow-row gap-4 gap-4"
+  "class": "grid grid-cols-2 md:grid-cols-5 grid-flow-row gap-4 gap-4"
 };
 var _hoisted_10 = ["onClick"];
 var _hoisted_11 = {
-  "class": "relative mx-3 mt-3 h-48 overflow-hidden rounded-xl bg-white bg-clip-border text-gray-700"
+  "class": "relative mx-3 mt-3 h-32 md:h-48 overflow-hidden rounded-xl bg-white bg-clip-border text-gray-700"
 };
 var _hoisted_12 = ["src"];
 var _hoisted_13 = ["src"];
@@ -29665,7 +29665,7 @@ var _hoisted_14 = {
   "class": "p-3"
 };
 var _hoisted_15 = {
-  "class": "block text-[14px] h-12 font-sans text-base font-medium leading-relaxed text-blue-gray-900 antialiased"
+  "class": "block text-[12px] md:text-[14px] h-12 font-sans text-base font-medium leading-relaxed text-blue-gray-900 antialiased"
 };
 var _hoisted_16 = {
   "class": "font-bold block font-sans text-base leading-relaxed text-blue-gray-900 antialiased"
@@ -29797,11 +29797,11 @@ var _hoisted_16 = {
   "class": "mb-4 font-bold"
 };
 var _hoisted_17 = {
-  "class": "grid grid-cols-1 md:grid-cols-4 grid-flow-row gap-4 gap-4"
+  "class": "grid grid-cols-2 md:grid-cols-4 grid-flow-row gap-4 gap-4"
 };
 var _hoisted_18 = ["onClick"];
 var _hoisted_19 = {
-  "class": "relative mx-3 mt-3 h-44 overflow-hidden rounded-xl bg-white bg-clip-border text-gray-700"
+  "class": "relative mx-3 mt-3 h-32 md:h-48 overflow-hidden rounded-xl bg-white bg-clip-border text-gray-700"
 };
 var _hoisted_20 = ["src"];
 var _hoisted_21 = ["src"];
@@ -29809,7 +29809,7 @@ var _hoisted_22 = {
   "class": "p-3"
 };
 var _hoisted_23 = {
-  "class": "block text-[14px] h-12 font-sans text-base font-medium leading-relaxed text-blue-gray-900 antialiased"
+  "class": "block text-[12px] md:text-[14px] h-12 font-sans text-base font-medium leading-relaxed text-blue-gray-900 antialiased"
 };
 var _hoisted_24 = {
   "class": "font-bold block font-sans text-base leading-relaxed text-blue-gray-900 antialiased"

@@ -907,6 +907,12 @@ select {
 .h-full {
   height: 100%;
 }
+.h-24 {
+  height: 6rem;
+}
+.h-32 {
+  height: 8rem;
+}
 .min-h-screen {
   min-height: 100vh;
 }
@@ -1409,6 +1415,12 @@ select {
 .text-xs {
   font-size: 0.75rem;
   line-height: 1rem;
+}
+.text-\[10px\] {
+  font-size: 10px;
+}
+.text-\[12px\] {
+  font-size: 12px;
 }
 .font-bold {
   font-weight: 700;
@@ -1918,6 +1930,10 @@ select {
     display: none;
   }
 
+  .md\:h-48 {
+    height: 12rem;
+  }
+
   .md\:w-1\/3 {
     width: 33.333333%;
   }
@@ -1994,6 +2010,10 @@ select {
 
   .md\:text-\[20px\] {
     font-size: 20px;
+  }
+
+  .md\:text-\[14px\] {
+    font-size: 14px;
   }
 }
 @media (min-width: 1024px) {
