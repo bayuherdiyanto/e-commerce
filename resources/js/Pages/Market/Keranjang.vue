@@ -12,7 +12,8 @@ const props = defineProps({
     noHp: String,
     customer: Object,
     tipeCustomer: String,
-    smaSetting: Object
+    smaSetting: Object,
+    qtyItem: Object
 });
 
 let kodePelanggan = ref(props.kodePelanggan);
@@ -126,6 +127,47 @@ var Toast = Swal.mixin({
       toast.addEventListener('mouseleave', Swal.resumeTimer)
     }
 });
+
+const qtyItem = ref(props.qtyItem);
+function kurangQty(detail_id){
+    if(qtyItem.value[detail_id]>0){
+        Inertia.post(
+            "/kurangQty",
+            { 
+                detail_id: detail_id
+            },
+            {
+                onFinish: () => {
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Success',
+                    })
+                },
+                preserveState: false,
+            }
+        );
+    }
+}
+
+function tambahQty(detail_id){
+    if(qtyItem.value[detail_id]>0){
+        Inertia.post(
+            "/tambahQty",
+            { 
+                detail_id: detail_id
+            },
+            {
+                onFinish: () => {
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Success',
+                    })
+                },
+                preserveState: false,
+            }
+        );
+    }
+}
 </script>
 
 <template>
@@ -138,13 +180,26 @@ var Toast = Swal.mixin({
         <div class="md:flex gap-10">
             <div class="w-full md:w-2/3">
                 <div v-for="(item, index) in keranjangDetail" :key="item.id" class="w-full  mb-5 p-4 relative rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
+                    
                     <div class="md:flex gap-5 mb-5">
                          <div class="w-40">
                             <img :src="route('image', { 'jenis' : 'product1' , 'id' : item.product.id })" class="h-full w-full object-cover" />
                         </div>
                         <div class="">Nama : {{ item.item_name }}</div>
                         <div class="">Harga : {{ number_format(item.product.price,2, ',','.') }}</div>
-                        <div class="">Jumlah : {{ number_format(item.qty,2, ',','.') }}</div>
+                        <div class="">Jumlah : 
+                            <div class="flex">
+                                <div @click="kurangQty(item.id)" class="flex items-center justify-center bg-white border rounded-l-lg border-[#c9c9c9] w-10">
+                                    -
+                                </div>
+                                <div class=" w-20">
+                                    <input type="text" @change="changeQty" v-model="qtyItem[item.id]" class="w-full border-[#c9c9c9] text-center">
+                                </div>
+                                <div @click="tambahQty(item.id)" class="flex items-center justify-center bg-white border rounded-r-lg border-[#c9c9c9] w-10">
+                                    +
+                                </div>
+                            </div>
+                        </div>
                         <div class="">Total : {{ number_format(item.total,2, ',','.') }}</div>
                     </div>
                     <div class="">

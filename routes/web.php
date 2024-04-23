@@ -37,6 +37,8 @@ Route::post('/addKeranjang', [MarketController::class, 'addKeranjang'])->name('a
 Route::post('/deleteKeranjang', [MarketController::class, 'deleteKeranjang'])->name('deleteKeranjang');
 Route::post('/checkout', [MarketController::class, 'checkout'])->name('checkout');
 Route::match(['get', 'post'], '/keranjang', [MarketController::class, 'keranjang'])->name('keranjang');
+Route::post('/kurangQty', [MarketController::class, 'kurangQty'])->name('kurangQty');
+Route::post('/tambahQty', [MarketController::class, 'tambahQty'])->name('tambahQty');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

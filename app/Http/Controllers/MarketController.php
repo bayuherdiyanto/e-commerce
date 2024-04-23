@@ -303,10 +303,14 @@ class MarketController extends Controller
         $keranjang_id = session()->get('keranjang');
         $keranjang = Keranjang::where("id", $keranjang_id)->where("status", 0)->first();
         $keranjangDetail = [];
+        $qtyItem = [];
         if (!$keranjang) {
             $keranjang['total'] = 0;
         } else {
             $keranjangDetail = KeranjangDetail::where('id_keranjang', $keranjang_id)->with('product')->get();
+            foreach ($keranjangDetail as $row) {
+                $qtyItem[$row->id] = $row->qty;
+            }
         }
 
 
@@ -342,8 +346,49 @@ class MarketController extends Controller
             'noHp' => $noHp,
             'customer' => $customer,
             'tipeCustomer' => $tipeCustomer,
-            'smaSetting' => $smaSetting
+            'smaSetting' => $smaSetting,
+            'qtyItem' => $qtyItem
         ]);
+    }
+
+    public function kurangQty(Request $request)
+    {
+        $keranjang_id = session()->get('keranjang');
+        $keranjang = Keranjang::where("id", $keranjang_id)->where("status", 0)->first();
+
+        $detail_id = $request->detail_id;
+        $detail = KeranjangDetail::where("id", $detail_id)->where("id_keranjang", $keranjang->id)->first();
+        $detail->qty = $detail->qty - 1;
+        $detail->total = $detail->qty * $detail->harga;
+        $detail->save();
+
+        $totalBelanja = KeranjangDetail::selectRaw('sum(total) as total')->where('id_keranjang', $keranjang->id)->first();
+        if ($totalBelanja) {
+            $keranjang->total = $totalBelanja->total;
+            $keranjang->save();
+        }
+
+        return Redirect::route('keranjang');
+    }
+
+    public function tambahQty(Request $request)
+    {
+        $keranjang_id = session()->get('keranjang');
+        $keranjang = Keranjang::where("id", $keranjang_id)->where("status", 0)->first();
+
+        $detail_id = $request->detail_id;
+        $detail = KeranjangDetail::where("id", $detail_id)->where("id_keranjang", $keranjang->id)->first();
+        $detail->qty = $detail->qty + 1;
+        $detail->total = $detail->qty * $detail->harga;
+        $detail->save();
+
+        $totalBelanja = KeranjangDetail::selectRaw('sum(total) as total')->where('id_keranjang', $keranjang->id)->first();
+        if ($totalBelanja) {
+            $keranjang->total = $totalBelanja->total;
+            $keranjang->save();
+        }
+
+        return Redirect::route('keranjang');
     }
 
     public function checkout(Request $request)
