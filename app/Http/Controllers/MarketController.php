@@ -306,6 +306,7 @@ class MarketController extends Controller
         $keranjang = Keranjang::where("id", $keranjang_id)->where("status", 0)->first();
         $keranjangDetail = [];
         $qtyItem = [];
+        // dd($keranjang);
         if (!$keranjang) {
             $keranjang['total'] = 0;
         } else {
@@ -380,7 +381,7 @@ class MarketController extends Controller
 
         $customer = [];
         $tipeCustomer = "";
-        if ($kodePelanggan && $noHp) {
+        if ($kodePelanggan && $noHp && $keranjangDetail) {
             $customer = Customers::where("kode_customer", $kodePelanggan)
                 ->where("phone", $noHp)->first();
             if ($customer) {
@@ -428,6 +429,26 @@ class MarketController extends Controller
         $detail_id = $request->detail_id;
         $detail = KeranjangDetail::where("id", $detail_id)->where("id_keranjang", $keranjang->id)->first();
         $detail->qty = $detail->qty - 1;
+        $detail->total = $detail->qty * $detail->harga;
+        $detail->save();
+
+        $totalBelanja = KeranjangDetail::selectRaw('sum(total) as total')->where('id_keranjang', $keranjang->id)->first();
+        if ($totalBelanja) {
+            $keranjang->total = $totalBelanja->total;
+            $keranjang->save();
+        }
+
+        return Redirect::route('keranjang');
+    }
+
+    public function changeQty(Request $request)
+    {
+        $keranjang_id = session()->get('keranjang');
+        $keranjang = Keranjang::where("id", $keranjang_id)->where("status", 0)->first();
+
+        $detail_id = $request->detail_id;
+        $detail = KeranjangDetail::where("id", $detail_id)->where("id_keranjang", $keranjang->id)->first();
+        $detail->qty = $request->qtyItem;
         $detail->total = $detail->qty * $detail->harga;
         $detail->save();
 

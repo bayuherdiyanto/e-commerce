@@ -26728,6 +26728,22 @@ __webpack_require__.r(__webpack_exports__);
         });
       }
     }
+    function changeQty(detail_id) {
+      if (qtyItem.value[detail_id] > 0) {
+        _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_3__.Inertia.post("/changeQty", {
+          detail_id: detail_id,
+          qtyItem: qtyItem.value[detail_id]
+        }, {
+          onFinish: function onFinish() {
+            Toast.fire({
+              icon: 'success',
+              title: 'Success'
+            });
+          },
+          preserveState: false
+        });
+      }
+    }
     var __returned__ = {
       props: props,
       get kodePelanggan() {
@@ -26762,6 +26778,7 @@ __webpack_require__.r(__webpack_exports__);
       qtyItem: qtyItem,
       kurangQty: kurangQty,
       tambahQty: tambahQty,
+      changeQty: changeQty,
       get Head() {
         return _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_0__.Head;
       },
@@ -29453,7 +29470,7 @@ var _hoisted_12 = ["onClick"];
 var _hoisted_13 = {
   "class": "w-20"
 };
-var _hoisted_14 = ["onUpdate:modelValue"];
+var _hoisted_14 = ["onChange", "onUpdate:modelValue"];
 var _hoisted_15 = ["onClick"];
 var _hoisted_16 = {
   "class": ""
@@ -29557,9 +29574,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "class": "flex items-center justify-center bg-white border rounded-l-lg border-[#c9c9c9] w-10"
     }, " - ", 8 /* PROPS */, _hoisted_12), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
       type: "text",
-      onChange: _cache[0] || (_cache[0] = function () {
-        return _ctx.changeQty && _ctx.changeQty.apply(_ctx, arguments);
-      }),
+      onChange: function onChange($event) {
+        return $setup.changeQty(item.id);
+      },
       "onUpdate:modelValue": function onUpdateModelValue($event) {
         return $setup.qtyItem[item.id] = $event;
       },
@@ -29583,7 +29600,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     disabled: ""
   }, null, 8 /* PROPS */, _hoisted_28)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", _hoisted_29))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [_hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "text",
-    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $setup.kodePelanggan = $event;
     }),
     "class": "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -29591,7 +29608,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     lazy: true
   }]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [_hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "text",
-    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
       return $setup.noHp = $event;
     }),
     "class": "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -29599,7 +29616,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     lazy: true
   }]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [_hoisted_37, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "text",
-    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
       return $setup.promo = $event;
     }),
     "class": "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"

@@ -171,6 +171,28 @@ function tambahQty(detail_id){
         );
     }
 }
+
+function changeQty(detail_id){
+    if(qtyItem.value[detail_id]>0){
+        Inertia.post(
+            "/changeQty",
+            { 
+                detail_id: detail_id,
+                qtyItem: qtyItem.value[detail_id]
+            },
+            {
+                onFinish: () => {
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Success',
+                    })
+                },
+                preserveState: false,
+            }
+        );
+    }
+}
+
 </script>
 
 <template>
@@ -196,7 +218,7 @@ function tambahQty(detail_id){
                                     -
                                 </div>
                                 <div class=" w-20">
-                                    <input type="text" @change="changeQty" v-model="qtyItem[item.id]" class="w-full border-[#c9c9c9] text-center">
+                                    <input type="text" @change="changeQty(item.id)" v-model="qtyItem[item.id]" class="w-full border-[#c9c9c9] text-center">
                                 </div>
                                 <div @click="tambahQty(item.id)" class="flex items-center justify-center bg-white border rounded-r-lg border-[#c9c9c9] w-10">
                                     +
