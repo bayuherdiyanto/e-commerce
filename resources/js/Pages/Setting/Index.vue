@@ -13,7 +13,8 @@ const props = defineProps({
 
 const form = useForm({
     gudang: props.setting.gudang,
-    no_wa: props.setting.no_wa
+    no_wa: props.setting.no_wa,
+    biller: props.setting.biller
 });
 
 var Toast = Swal.mixin({

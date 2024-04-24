@@ -30,8 +30,9 @@ class SettingController extends Controller
         if (!$setting) {
             $setting = new Setting;
         }
-        $setting->gudang = $request->gudang;
-        $setting->no_wa = $request->no_wa;
+        $setting->gudang    = $request->gudang;
+        $setting->no_wa     = $request->no_wa;
+        $setting->biller    = $request->biller;
         $setting->save();
 
         return redirect('/setting');

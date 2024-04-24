@@ -13,6 +13,7 @@ class Setting extends Model
     public $timestamps = false;
     protected $fillable = [
         'gudang',
-        'no_wa'
+        'no_wa',
+        'biller'
     ];
 }

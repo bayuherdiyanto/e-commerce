@@ -523,7 +523,8 @@ class MarketController extends Controller
             'term_condition' => '',
             'alamat_kirim_supplier' => '',
             'ekspedisi' => '',
-            'purchase_reference_no' => ''
+            'purchase_reference_no' => '',
+            'status' => 'pending'
         ];
         $sellingOrder = SellingOrder::create($data);
 
