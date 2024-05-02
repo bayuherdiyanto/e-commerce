@@ -22,6 +22,8 @@ use App\Models\WareHouse;
 use App\Models\SmaSetting;
 use App\Models\ProductPrices;
 use App\Models\PromoDetail;
+use App\Models\Satuan;
+use App\Models\HargaProductQty;
 
 class MarketController extends Controller
 {
@@ -203,9 +205,13 @@ class MarketController extends Controller
             'sma_categories.name as category_name',
             'sma_products.status_online',
             'sma_products.price',
-            'sma_products.product_details'
+            'sma_products.product_details',
+            'sma_units.id as id_satuan',
+            'sma_units.code as code_satuan',
+            'sma_units.name as nama_satuan'
         )
             ->leftJoin('sma_brands', 'sma_brands.id', 'sma_products.brand')
+            ->leftJoin('sma_units', 'sma_units.id', 'sma_products.unit')
             ->leftJoin('sma_categories', 'sma_categories.id', 'sma_products.category_id')
             ->where('sma_products.id', $id)
             ->first();
@@ -216,11 +222,45 @@ class MarketController extends Controller
 
         // dd($product);
 
+        $satuan = Satuan::select('sma_units.id', 'sma_units.name')->where('product_id', $id)
+            ->join('sma_units', 'sma_units.id', 'sma_satuan.unit_id')
+            ->get();
+        $status_satuan = 0;
+        $dataHarga[$product->id_satuan] = [
+            'id' => $product->id_satuan,
+            'harga' => $product->price
+        ];
+        if (!$satuan->isEmpty()) {
+            $status_satuan = 1;
+            foreach ($satuan as $row) {
+                $hargaSatuan = HargaProductQty::where('product_id', $id)
+                    ->where('unit_id', $row->id)
+                    ->where('price_group_id', 0)
+                    ->first();
+
+                if ($hargaSatuan) {
+                    $dataHarga[$row->id] = [
+                        'id' => $row->id,
+                        'harga' => "Rp. " . number_format($hargaSatuan->product_prices, 0, '.', '.')
+                    ];
+                } else {
+                    $dataHarga[$row->id] = [
+                        'id' => $row->id,
+                        'harga' => "Rp 0"
+                    ];
+                }
+            }
+        }
+        // dd($dataHarga);
+
         $smaSetting = SmaSetting::find(1);
         return Inertia::render('Market/Detail', [
             'product' => $product,
             'qty' => 0,
-            'smaSetting' => $smaSetting
+            'smaSetting' => $smaSetting,
+            'status_satuan' => $status_satuan,
+            'satuan' => $satuan,
+            'dataHarga' => $dataHarga
         ]);
     }
 

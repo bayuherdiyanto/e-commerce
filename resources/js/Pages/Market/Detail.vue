@@ -9,7 +9,10 @@ import { defineComponent, onMounted } from 'vue';
 const props = defineProps({
     product: Object,
     qty : String,
-    smaSetting: Object
+    smaSetting: Object,
+    status_satuan: String,
+    satuan: Object,
+    dataHarga: Object
 });
 
 const main   = ref();
@@ -71,6 +74,7 @@ function number_format (number, decimals, dec_point, thousands_sep) {
 }
 
 let qty = ref(props.qty);
+let id_satuan = ref(props.product.id_satuan);
 // watch(qty, (value) => {
 //     alert(value);
 //     qty.value = number_format(value, 2, '.', '.');    
@@ -88,6 +92,11 @@ function kurangQty(){
     if(qty.value>0){
         qty.value = qty.value-1;
     }
+}
+
+function changeSatuan(){
+    props.product.price = props.dataHarga[id_satuan.value].harga;
+    alert(id_satuan.value);
 }
 
 var Toast = Swal.mixin({
@@ -110,7 +119,8 @@ function addKeranjang(){
         "/addKeranjang",
         { 
             qty: qty.value,
-            product_id: props.product.id
+            product_id: props.product.id,
+            id_satuan: id_satuan.value
         },
         {
             onFinish: () => {
@@ -187,6 +197,17 @@ function addKeranjang(){
                 <div>
                     <div>Merk : {{ product.brand_name }}</div>
                     <div>Kategori : {{ product.category_name }}</div>
+                    <div>
+                        Satuan : 
+                        <span v-if="!status_satuan">{{ product.nama_satuan }}</span>
+                        
+                        <span v-else>
+                            <select @change="changeSatuan" v-model="id_satuan">
+                                <option :value="product.id_satuan">{{ product.nama_satuan }}</option>
+                                <option v-for="(item, index) in satuan" :key="item.id" :value="item.id">{{item.name}}</option>
+                            </select>
+                        </span>
+                    </div>
                 </div>
                 <div v-html="product.product_details" class="h-[460px] overflow-auto"></div>
                 <div >
