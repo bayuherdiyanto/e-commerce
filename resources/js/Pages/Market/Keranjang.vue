@@ -211,7 +211,7 @@ function changeQty(detail_id){
                             <img :src="route('image', { 'jenis' : 'product1' , 'id' : item.product.id })" class="h-full w-full object-cover" />
                         </div>
                         <div class="">Nama : {{ item.item_name }}</div>
-                        <div class="">Harga : {{ number_format(item.product.price,2, ',','.') }}</div>
+                        <div class="">Harga : {{ number_format(item.harga,2, ',','.') }}</div>
                         <div class="">Jumlah : 
                             <div class="flex">
                                 <div @click="kurangQty(item.id)" class="flex items-center justify-center bg-white border rounded-l-lg border-[#c9c9c9] w-10">

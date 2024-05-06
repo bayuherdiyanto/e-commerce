@@ -18,6 +18,7 @@ class KeranjangDetail extends Model
         'harga',
         'diskon',
         'qty',
+        'id_satuan',
         'total'
     ];
 

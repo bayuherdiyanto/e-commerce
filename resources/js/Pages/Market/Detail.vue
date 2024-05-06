@@ -12,7 +12,8 @@ const props = defineProps({
     smaSetting: Object,
     status_satuan: String,
     satuan: Object,
-    dataHarga: Object
+    dataHarga: Object,
+    satuan_id: String
 });
 
 const main   = ref();
@@ -74,7 +75,7 @@ function number_format (number, decimals, dec_point, thousands_sep) {
 }
 
 let qty = ref(props.qty);
-let id_satuan = ref(props.product.id_satuan);
+let id_satuan = ref(props.satuan_id);
 // watch(qty, (value) => {
 //     alert(value);
 //     qty.value = number_format(value, 2, '.', '.');    
@@ -95,8 +96,8 @@ function kurangQty(){
 }
 
 function changeSatuan(){
-    props.product.price = props.dataHarga[id_satuan.value].harga;
-    alert(id_satuan.value);
+    props.product.price = props.dataHarga[id_satuan.value].hargaRp;
+    // alert(id_satuan.value);
 }
 
 var Toast = Swal.mixin({
@@ -120,7 +121,8 @@ function addKeranjang(){
         { 
             qty: qty.value,
             product_id: props.product.id,
-            id_satuan: id_satuan.value
+            id_satuan: id_satuan.value,
+            harga: props.dataHarga[id_satuan.value].harga
         },
         {
             onFinish: () => {

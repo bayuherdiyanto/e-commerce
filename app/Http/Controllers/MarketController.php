@@ -193,6 +193,11 @@ class MarketController extends Controller
 
     public function detailProduct($id)
     {
+        $keranjang_id = session()->get('keranjang');
+        $keranjang = Keranjang::where("id", $keranjang_id)->where("status", 0)->first();
+
+        $keranjangDetail = KeranjangDetail::where("id_keranjang", $keranjang_id)->where("item_id", $id)->first();
+
         $product = Product::select(
             'sma_products.id',
             'sma_products.image1',
@@ -216,42 +221,36 @@ class MarketController extends Controller
             ->where('sma_products.id', $id)
             ->first();
 
+
+
+        // dd($product);
+
+
+        $status_satuan = 0;
+        $dataHarga = $this->dataharga($id, 0);
+        $dataHarga[$product->id_satuan] = [
+            'id' => $product->id_satuan,
+            'hargaRp' => "Rp. " . number_format($product->price, 0, '.', '.'),
+            'harga' => $product->price
+        ];
+        // dd($dataHarga);
         if ($product) {
             $product->price = "Rp. " . number_format($product->price, 0, '.', '.');
         }
 
-        // dd($product);
-
         $satuan = Satuan::select('sma_units.id', 'sma_units.name')->where('product_id', $id)
             ->join('sma_units', 'sma_units.id', 'sma_satuan.unit_id')
             ->get();
-        $status_satuan = 0;
-        $dataHarga[$product->id_satuan] = [
-            'id' => $product->id_satuan,
-            'harga' => $product->price
-        ];
         if (!$satuan->isEmpty()) {
             $status_satuan = 1;
-            foreach ($satuan as $row) {
-                $hargaSatuan = HargaProductQty::where('product_id', $id)
-                    ->where('unit_id', $row->id)
-                    ->where('price_group_id', 0)
-                    ->first();
-
-                if ($hargaSatuan) {
-                    $dataHarga[$row->id] = [
-                        'id' => $row->id,
-                        'harga' => "Rp. " . number_format($hargaSatuan->product_prices, 0, '.', '.')
-                    ];
-                } else {
-                    $dataHarga[$row->id] = [
-                        'id' => $row->id,
-                        'harga' => "Rp 0"
-                    ];
-                }
-            }
         }
-        // dd($dataHarga);
+        // dd($satuan);
+
+        $satuan_id = $product->id_satuan;
+        if ($keranjangDetail) {
+            $satuan_id = $keranjangDetail->id_satuan;
+            $product->price = "Rp. " . number_format($keranjangDetail->harga, 0, '.', '.');
+        }
 
         $smaSetting = SmaSetting::find(1);
         return Inertia::render('Market/Detail', [
@@ -260,8 +259,75 @@ class MarketController extends Controller
             'smaSetting' => $smaSetting,
             'status_satuan' => $status_satuan,
             'satuan' => $satuan,
-            'dataHarga' => $dataHarga
+            'dataHarga' => $dataHarga,
+            'satuan_id' => $satuan_id
         ]);
+    }
+
+    private function dataharga($id, $priceGroupId)
+    {
+        $dataHarga = [];
+        $satuan = Satuan::select('sma_units.id', 'sma_units.name')
+            ->join('sma_units', 'sma_units.id', 'sma_satuan.unit_id')
+            ->where('product_id', $id)
+            ->get();
+        if (!$satuan->isEmpty()) {
+            $status_satuan = 1;
+            foreach ($satuan as $row) {
+                $hargaSatuan = HargaProductQty::where('product_id', $id)
+                    ->where('unit_id', $row->id)
+                    ->where('price_group_id', $priceGroupId)
+                    ->first();
+
+                if ($hargaSatuan) {
+                    $dataHarga[$row->id] = [
+                        'id' => $row->id,
+                        'hargaRp' => "Rp. " . number_format($hargaSatuan->product_prices, 0, '.', '.'),
+                        'harga' => $hargaSatuan->product_prices
+                    ];
+                } else {
+                    $dataHarga[$row->id] = [
+                        'id' => $row->id,
+                        'hargaRp' => "Rp 0",
+                        'harga' => "0"
+                    ];
+                }
+            }
+        }
+
+        return $dataHarga;
+    }
+
+    private function dataHargaUnite($id, $priceGroupId, $unit_id)
+    {
+        $hargaSatuan = [];
+        $satuan = Satuan::select('sma_units.id', 'sma_units.name')
+            ->join('sma_units', 'sma_units.id', 'sma_satuan.unit_id')
+            ->where('product_id', $id)
+            ->where('sma_satuan.unit_id', $unit_id)
+            ->first();
+        if ($satuan) {
+            $hargaSatuan = HargaProductQty::where('product_id', $id)
+                ->where('unit_id', $satuan->id)
+                ->where('price_group_id', $priceGroupId)
+                ->first();
+
+            // if ($hargaSatuan) {
+            //     $dataHarga = [
+            //         'id' => $satuan->id,
+            //         'hargaRp' => "Rp. " . number_format($hargaSatuan->product_prices, 0, '.', '.'),
+            //         'harga' => $hargaSatuan->product_prices
+            //     ];
+            // } else {
+            //     $dataHarga = [
+            //         'id' => $satuan->id,
+            //         'hargaRp' => "Rp 0",
+            //         'harga' => "0"
+            //     ];
+            // }
+        }
+
+        return $hargaSatuan;
     }
 
     public function promo()
@@ -307,14 +373,16 @@ class MarketController extends Controller
         // dd($request->all());
         if ($request->qty && $request->qty > 0) {
             $product = Product::find($request->product_id);
+            // dd($request->id_satuan);
             if ($product) {
                 $data = [
                     'id_keranjang' => $keranjang->id,
                     'item_id' => $product->id,
                     'item_name' => $product->name,
                     'qty' => $request->qty,
-                    'harga' => $product->price,
-                    'total' => $request->qty * $product->price
+                    'id_satuan' => $request->id_satuan,
+                    'harga' => $request->harga,
+                    'total' => ($request->harga > 0) ? $request->qty * $request->harga : 0
                 ];
                 KeranjangDetail::updateOrCreate(['id_keranjang' => $keranjang->id, 'item_id' => $product->id], $data);
             }
@@ -430,12 +498,13 @@ class MarketController extends Controller
                 // price_group_id
 
                 foreach ($keranjangDetail as $row) {
-                    $productPrice = ProductPrices::where("price_group_id", $customer->price_group_id)
-                        ->where('product_id', $row->item_id)
-                        ->first();
+                    $productPrice = $this->dataHargaUnite($row->item_id, $customer->price_group_id, $row->id_satuan);
+                    // $productPrice = ProductPrices::where("price_group_id", $customer->price_group_id)
+                    //     ->where('product_id', $row->item_id)
+                    //     ->first();
 
                     if ($productPrice) {
-                        $row->harga = $productPrice->price;
+                        $row->harga = $productPrice->product_prices;
                         $row->save();
                     } else {
                         $row->harga = 0;
