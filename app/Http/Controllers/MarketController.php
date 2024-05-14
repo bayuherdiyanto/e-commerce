@@ -309,6 +309,7 @@ class MarketController extends Controller
         if ($satuan) {
             $hargaSatuan = HargaProductQty::where('product_id', $id)
                 ->where('unit_id', $satuan->id)
+                ->where('no', 0)
                 ->where('price_group_id', $priceGroupId)
                 ->first();
 
@@ -499,15 +500,17 @@ class MarketController extends Controller
 
                 foreach ($keranjangDetail as $row) {
                     $productPrice = $this->dataHargaUnite($row->item_id, $customer->price_group_id, $row->id_satuan);
-                    // $productPrice = ProductPrices::where("price_group_id", $customer->price_group_id)
-                    //     ->where('product_id', $row->item_id)
-                    //     ->first();
 
+                    // dd($row->item_id, $customer->price_group_id, $row->id_satuan, $productPrice);
                     if ($productPrice) {
                         $row->harga = $productPrice->product_prices;
                         $row->save();
                     } else {
-                        $row->harga = 0;
+                        $productPrice = ProductPrices::where("price_group_id", $customer->price_group_id)
+                            ->where('product_id', $row->item_id)
+                            ->first();
+
+                        $row->harga = $productPrice->price;
                         $row->save();
                     }
                 }
@@ -605,6 +608,7 @@ class MarketController extends Controller
         }
 
         $setting = Setting::find(1);
+        $biller = Customers::find($setting->biller);
         $warehouse = WareHouse::find($setting->gudang);
 
         $data = [
@@ -614,8 +618,8 @@ class MarketController extends Controller
             'customer' => $customer->company && $customer->company != '-' ? $customer->company : $customer->name,
             'warehouse_id' => $warehouse->id,
             'warehouse' => $warehouse->name != '' ? $warehouse->name : '',
-            'biller_id' => $customer->id,
-            'biller' => $customer->company && $customer->company != '-' ? $customer->company : $customer->name,
+            'biller_id' => $biller->id,
+            'biller' => $biller->company && $biller->company != '-' ? $biller->company : $biller->name,
             'note' => '',
             'internal_note' => '',
             'total' => $keranjang->total,

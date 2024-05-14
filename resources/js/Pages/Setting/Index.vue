@@ -7,8 +7,9 @@ import Pagination from '@/Components/Pagination.vue';
 import { Inertia } from '@inertiajs/inertia';
 
 const props = defineProps({
-    gudang: String,
-    setting: String
+    gudang: Object,
+    setting: String,
+    biller: Object
 });
 
 const form = useForm({
@@ -78,6 +79,18 @@ let status_online = ref(props.status_online);
                         <select v-model="form.gudang" class="w-full h-10 border-[0px] pl-2">
                             <option value=""> -- Pilih Gudang -- </option>
                             <option v-for="(item, index) in gudang" :key="item.id" :value="item.id">
+                                {{ item.name }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <!-- biller -->
+                <div class="w-full md:w-1/5 mb-5">
+                    <div>Biller</div>
+                    <div>
+                        <select v-model="form.biller" class="w-full h-10 border-[0px] pl-2">
+                            <option value=""> -- Pilih Biller -- </option>
+                            <option v-for="(item, index) in biller" :key="item.id" :value="item.id">
                                 {{ item.name }}
                             </option>
                         </select>

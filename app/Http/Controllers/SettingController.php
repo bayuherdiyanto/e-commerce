@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\Gudang;
 use App\Models\Setting;
+use App\Models\Customers;
 use Illuminate\Support\Facades\Redirect;
 
 class SettingController extends Controller
@@ -15,12 +16,14 @@ class SettingController extends Controller
     {
         $gudang = Gudang::get();
         $setting = Setting::where('id', 1)->first();
+        $biller = Customers::where('group_name', 'biller')->get();
         if (!$setting) {
             $setting = new Setting;
         }
         return Inertia::render('Setting/Index', [
             'gudang' => $gudang,
-            'setting' => $setting
+            'setting' => $setting,
+            'biller' => $biller
         ]);
     }
 
