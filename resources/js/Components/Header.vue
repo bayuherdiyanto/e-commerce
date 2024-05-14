@@ -7,7 +7,8 @@ const props = defineProps({
     category_id: String,
     search: String,
     category_id: String,
-    smaSetting: Object
+    smaSetting: Object,
+    totalKeranjang: String
 });
 
 function changeKategory(category_id){
@@ -73,7 +74,10 @@ const menuToogle = ref(false);
             <Link :href="route('promo')" :class="(route().current('promo')) ? 'bg-white' : 'text-white bg-transparent'"  class="px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg flex items-center md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-white focus:bg-gray-200 focus:outline-none focus:shadow-outline" href="#">
                 Promo
             </Link>
-            <Link :href="route('keranjang')" class="px-4 py-2 mt-2 text-white text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-white focus:bg-gray-200 focus:outline-none focus:shadow-outline" href="#">
+            <Link :href="route('keranjang')" class="relative px-4 py-2 mt-2 text-white text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-white focus:bg-gray-200 focus:outline-none focus:shadow-outline" href="#">
+                <div class="absolute top-0 right-1 text-[12px] font-bold h-5 w-5 text-center bg-red-500 rounded-full">
+                    {{totalKeranjang}}
+                </div>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
                 </svg>
@@ -88,6 +92,13 @@ const menuToogle = ref(false);
             <svg v-show="menuToogle" @click="menuToogle=!menuToogle" fill="currentColor" viewBox="0 0 20 20" class="w-6 h-6">
                 <path   fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
             </svg>
+        </div>
+    </div>
+
+    <div class=" sticky md:hidden top-0 item-center  justify-between w-full bg-blue-500 px-5 md:px-20 py-5 z-10">
+        <div class="flex bg-[#d9d9d9] rounded-lg pl-2 py-0 w-full" style="border-radius:var(--Default-Border-Raius, 4px); border:1px solid var(--Light-Border, #E2E4EA); background:var(--Dominant, #FFF);">
+            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-6 h-6 text-black mt-1"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            <input v-model.lazy="search" type="text" placeholder="Cari Produk" class="w-full rounded-lg h-8 pt-0 pb-0 pl-2 focus:outline-0 searchbar-input border-none focus:ring-0">
         </div>
     </div>
     
@@ -105,15 +116,14 @@ const menuToogle = ref(false);
             <a class="px-2 text-white font-bold py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg " href="#">
                 Promo
             </a>
-            <a :href="route('keranjang')" class="px-2 text-white font-bold py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg" href="#">
+            <a :href="route('keranjang')" class="relative px-2 text-white font-bold py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg" href="#">
+                <div class="absolute top-0 right-1 text-[12px] font-bold h-5 w-5 text-center bg-red-500 rounded-full">
+                    {{totalKeranjang}}
+                </div>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
                 </svg>
             </a>
-            <div class="flex bg-[#d9d9d9] rounded-lg pl-2 py-0" style="border-radius:var(--Default-Border-Raius, 4px); border:1px solid var(--Light-Border, #E2E4EA); background:var(--Dominant, #FFF);">
-                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-6 h-6 text-black mt-1"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                <input v-model.lazy="search" type="text" placeholder="Cari Produk" class="w-full rounded-lg h-8 pt-0 pb-0 pl-2 focus:outline-0 searchbar-input border-none focus:ring-0">
-            </div>
         </nav>
     </div>
 </template>

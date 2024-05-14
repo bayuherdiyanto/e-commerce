@@ -18,10 +18,10 @@ class ProductController extends Controller
         if ($request->search) {
             $keyword = $request->search;
         }
-        if($request->status_online!=""){
+        if ($request->status_online != "") {
             $status_online = $request->status_online;
         }
-        if($request->status_online=="All"){
+        if ($request->status_online == "All") {
             $status_online = "";
         }
         // dd($request->all());
@@ -39,25 +39,25 @@ class ProductController extends Controller
             'sma_products.status_atas',
             'sma_categories.status_online as online_category'
         )
-        ->leftJoin('sma_brands','sma_brands.id','sma_products.brand')
-        ->leftJoin('sma_categories','sma_categories.id','sma_products.category_id')
-        ->where(function ($query) use ($keyword) {
-            return $query->where('sma_products.name', 'like', '%' . $keyword . '%')
-                ->orWhere('sma_products.code', 'like', '%' . $keyword . '%');
-        })
-        ->when( $status_online != "", function ($query) use ($status_online) {
-            $query->where('sma_products.status_online', $status_online );
-        })
-        
+            ->leftJoin('sma_brands', 'sma_brands.id', 'sma_products.brand')
+            ->leftJoin('sma_categories', 'sma_categories.id', 'sma_products.category_id')
+            ->where(function ($query) use ($keyword) {
+                return $query->where('sma_products.name', 'like', '%' . $keyword . '%')
+                    ->orWhere('sma_products.code', 'like', '%' . $keyword . '%');
+            })
+            ->when($status_online != "", function ($query) use ($status_online) {
+                $query->where('sma_products.status_online', $status_online);
+            })
+
             ->paginate(10);
 
         $status_online_value = [];
         $status_atas_value = [];
         foreach ($product as $row) {
-            if($row->status_online=="1"){
+            if ($row->status_online == "1") {
                 $status_online_value[] = $row->id;
             }
-            if($row->status_atas=="1"){
+            if ($row->status_atas == "1") {
                 $status_atas_value[] = $row->id;
             }
         }
@@ -65,86 +65,13 @@ class ProductController extends Controller
         return Inertia::render('Product/List', [
             'product' => $product,
             'search' => $keyword,
-            'status_online' => ($status_online=="") ? "All" : $status_online,
+            'status_online' => ($status_online == "") ? "All" : $status_online,
             'status_online_value' => $status_online_value,
             'status_atas_value' => $status_atas_value,
-            'page'=>$request->page
+            'page' => $request->page
         ]);
     }
 
-    public function update($id, Request $request): Response
-    {
-        $content = Content::find($id);
-        $provinsi   = Province::select('province_id as code', 'province_name as label')->get();
-        $kota       = City::query();
-        $kota->select('city_id as code', 'city_name as label');
-        $statusOutlet = ['CO', 'MBF', 'FRANCHISEE'];
-        $areaOutlet = ['WEST', 'CENTRAL', 'EAST'];
-
-        $outlet     = Outlet::query();
-        // dd($request->formKota);
-        if ($request->formKota) {
-            $outlet->where('city_id', $request->formKota);
-        }
-        if ($request->namaApotek) {
-            $outlet->where('outlet_name', 'LIKE', "%" . $request->namaApotek . "%");
-        }
-        if ($request->formProvinsi) {
-            $outlet->where('province_id', $request->formProvinsi);
-            $kota->where('province_id', $request->formProvinsi);
-        }
-        $outlet->where('status_operation', 'ACTIVE');
-        $outlet = $outlet->get();
-        $kota   = $kota->get();
-
-
-        $statusArea = [];
-        if ($request->area) {
-            foreach ($request->area as $key => $value) {
-                $statusArea[$value] = 1;
-            }
-        } else {
-            foreach ($areaOutlet as $key => $value) {
-                $statusArea[$value] = 1;
-            }
-        }
-
-        $statusOutletAktif = [];
-        if ($request->statusOutlet) {
-            foreach ($request->statusOutlet as $key => $value) {
-                $statusOutletAktif[$value] = 1;
-            }
-        } else {
-            foreach ($statusOutlet as $key => $value) {
-                $statusOutletAktif[$value] = 1;
-            }
-        }
-
-        $dataOutlet['WEST'] = [];
-        $dataOutlet['EAST'] = [];
-        $dataOutlet['CENTRAL'] = [];
-        foreach ($outlet as $row) {
-            $dataOutlet[$row->area][$row->outlet_type][] = $row;
-        }
-        $contentDetail = ContentDetail::where('content_id', $id)->get();
-        $listOutlet = [];
-        foreach ($contentDetail as $row) {
-            $listOutlet[] = (int)$row->outlet_code;
-        }
-
-        return Inertia::render('Content/Create', [
-            'kota' => $kota,
-            'provinsi' => $provinsi,
-            'statusOutletAktif' => $statusOutletAktif,
-            'areaOutlet' => $areaOutlet,
-            'dataOutlet' => $dataOutlet,
-            'statusArea' => $statusArea,
-            'statusOutlet' => $statusOutlet,
-            'listOutlet' => $listOutlet,
-            'contentOld' => $content,
-            'pilih_gerai' => 'sebagian'
-        ]);
-    }
 
     public function store(Request $request)
     {
@@ -177,34 +104,36 @@ class ProductController extends Controller
             $product->image4 = "image4_" . $product->id . "." . $request->image4->extension();
             $product->save();
         }
-        return Redirect::route('listProduct',[
-            'status_online'=>$request->status_online,
-            'search'=>$request->search,
-            'page'=>$request->page
+        return Redirect::route('listProduct', [
+            'status_online' => $request->status_online,
+            'search' => $request->search,
+            'page' => $request->page
         ]);
     }
 
-    public function changeStatusOnline(Request $request){
+    public function changeStatusOnline(Request $request)
+    {
         $product = Product::find($request->id);
-        $product->status_online = ($product->status_online=="1") ? 0 : 1;
+        $product->status_online = ($product->status_online == "1") ? 0 : 1;
         $product->save();
 
-        return Redirect::route('listProduct',[
-            'status_online'=>$request->status_online,
-            'search'=>$request->search,
-            'page'=>$request->page
+        return Redirect::route('listProduct', [
+            'status_online' => $request->status_online,
+            'search' => $request->search,
+            'page' => $request->page
         ]);
     }
-    
-    public function changeStatusAtas(Request $request){
+
+    public function changeStatusAtas(Request $request)
+    {
         $product = Product::find($request->id);
-        $product->status_atas = ($product->status_atas=="1") ? 0 : 1;
+        $product->status_atas = ($product->status_atas == "1") ? 0 : 1;
         $product->save();
 
-        return Redirect::route('listProduct',[
-            'status_online'=>$request->status_online,
-            'search'=>$request->search,
-            'page'=>$request->page
+        return Redirect::route('listProduct', [
+            'status_online' => $request->status_online,
+            'search' => $request->search,
+            'page' => $request->page
         ]);
     }
 

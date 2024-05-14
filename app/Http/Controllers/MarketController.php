@@ -24,6 +24,7 @@ use App\Models\ProductPrices;
 use App\Models\PromoDetail;
 use App\Models\Satuan;
 use App\Models\HargaProductQty;
+use App\Models\Unit;
 
 class MarketController extends Controller
 {
@@ -77,7 +78,8 @@ class MarketController extends Controller
         )->where('status_online', 1)
             ->where('status_home', 1)->get();
 
-
+        $keranjang_id = session()->get('keranjang');
+        $totalKeranjang = KeranjangDetail::where("id_keranjang", $keranjang_id)->get()->count();
         $smaSetting = SmaSetting::find(1);
         return Inertia::render('Market/Main', [
             'product' => $product,
@@ -85,7 +87,8 @@ class MarketController extends Controller
             'status_online' => $status_online,
             'category' => $category,
             'category_id' => $category_id,
-            'smaSetting' => $smaSetting
+            'smaSetting' => $smaSetting,
+            'totalKeranjang' => $totalKeranjang
         ]);
     }
 
@@ -114,12 +117,17 @@ class MarketController extends Controller
         )->where('status_online', 1)->get();
 
         $smaSetting = SmaSetting::find(1);
+
+        $keranjang_id = session()->get('keranjang');
+        $totalKeranjang = KeranjangDetail::where("id_keranjang", $keranjang_id)->get()->count();
+
         return Inertia::render('Market/Category', [
             'smaSetting' => $smaSetting,
             'search' => $keyword,
             'status_online' => $status_online,
             'category' => $category,
-            'category_id' => $category_id
+            'category_id' => $category_id,
+            'totalKeranjang' => $totalKeranjang
         ]);
     }
 
@@ -180,6 +188,9 @@ class MarketController extends Controller
         }
         // dd($keyword);
         $smaSetting = SmaSetting::find(1);
+
+        $keranjang_id = session()->get('keranjang');
+        $totalKeranjang = KeranjangDetail::where("id_keranjang", $keranjang_id)->get()->count();
         return Inertia::render('Market/Product', [
             'product' => $product,
             'search' => $keyword,
@@ -187,7 +198,8 @@ class MarketController extends Controller
             'category' => $category,
             'category_name' => $category_name,
             'category_id' => $category_id,
-            'smaSetting' => $smaSetting
+            'smaSetting' => $smaSetting,
+            'totalKeranjang' => $totalKeranjang
         ]);
     }
 
@@ -253,6 +265,9 @@ class MarketController extends Controller
         }
 
         $smaSetting = SmaSetting::find(1);
+
+        $keranjang_id = session()->get('keranjang');
+        $totalKeranjang = KeranjangDetail::where("id_keranjang", $keranjang_id)->get()->count();
         return Inertia::render('Market/Detail', [
             'product' => $product,
             'qty' => 0,
@@ -260,7 +275,8 @@ class MarketController extends Controller
             'status_satuan' => $status_satuan,
             'satuan' => $satuan,
             'dataHarga' => $dataHarga,
-            'satuan_id' => $satuan_id
+            'satuan_id' => $satuan_id,
+            'totalKeranjang' => $totalKeranjang
         ]);
     }
 
@@ -346,9 +362,12 @@ class MarketController extends Controller
         }
 
         $smaSetting = SmaSetting::find(1);
+        $keranjang_id = session()->get('keranjang');
+        $totalKeranjang = KeranjangDetail::where("id_keranjang", $keranjang_id)->get()->count();
         return Inertia::render('Market/Promo', [
             'promo' => $promo,
-            'smaSetting' => $smaSetting
+            'smaSetting' => $smaSetting,
+            'totalKeranjang' => $totalKeranjang
         ]);
     }
 
@@ -430,15 +449,16 @@ class MarketController extends Controller
         $textWa = $this->generateTextWa($keranjang, $keranjangDetail, $setting);
 
         $kodePelanggan = "";
-        if ($request->kodePelanggan) {
+        if ($request->idx) {
             $kodePelanggan = $request->kodePelanggan;
             session()->put('kodePelanggan', $kodePelanggan);
         } else {
+            // dd($request->kodePelanggan);
             $kodePelanggan = session()->get('kodePelanggan');
         }
 
         $noHp = "";
-        if ($request->noHp) {
+        if ($request->idx) {
             $noHp = $request->noHp;
             session()->put('noHp', $noHp);
         } else {
@@ -509,8 +529,11 @@ class MarketController extends Controller
                         $productPrice = ProductPrices::where("price_group_id", $customer->price_group_id)
                             ->where('product_id', $row->item_id)
                             ->first();
-
-                        $row->harga = $productPrice->price;
+                        if ($productPrice) {
+                            $row->harga = $productPrice->price;
+                        } else {
+                            $row->harga = 0;
+                        }
                         $row->save();
                     }
                 }
@@ -519,6 +542,9 @@ class MarketController extends Controller
         }
 
         $smaSetting = SmaSetting::find(1);
+
+        $keranjang_id = session()->get('keranjang');
+        $totalKeranjang = KeranjangDetail::where("id_keranjang", $keranjang_id)->get()->count();
         return Inertia::render('Market/Keranjang', [
             'keranjang' => $keranjang,
             'keranjangDetail' => $keranjangDetail,
@@ -529,7 +555,8 @@ class MarketController extends Controller
             'customer' => $customer,
             'tipeCustomer' => $tipeCustomer,
             'smaSetting' => $smaSetting,
-            'qtyItem' => $qtyItem
+            'qtyItem' => $qtyItem,
+            'totalKeranjang' => $totalKeranjang
         ]);
     }
 
@@ -646,6 +673,7 @@ class MarketController extends Controller
         $orderRef->save();
 
         foreach ($keranjangDetail as $row) {
+            $unit = Unit::find($row->id_satuan);
             $produk = Product::find($row->item_id);
             $detail = [
                 'quote_id' => $sellingOrder->id,
@@ -661,10 +689,12 @@ class MarketController extends Controller
                 'discount3' => '',
                 'discount4' => '',
                 'subtotal' => $row->total,
+                'product_unit_id' => $unit->id,
+                'product_unit_code' => $unit->code,
                 'unit_quantity' => $row->qty,
                 'unit_quantity_order' => $row->qty,
             ];
-
+            // id_satuan
             SellingOrderDetail::create($detail);
         }
 

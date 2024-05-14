@@ -15,7 +15,8 @@ defineProps({
     status_online: String,
     category_id: String,
     search: String,
-    smaSetting: Object
+    smaSetting: Object,
+    totalKeranjang: Object
 })
 const menuToogle = ref(false);
 function number_format (number, decimals, dec_point, thousands_sep) {
@@ -74,7 +75,7 @@ function changeProduct(id){
 
 <template>
     <Head title="Home" />
-    <Header :category_id="category_id" :search="search" :smaSetting="smaSetting" />
+    <Header :category_id="category_id" :totalKeranjang="totalKeranjang" :search="search" :smaSetting="smaSetting" />
     
     
     <!-- Kategori -->

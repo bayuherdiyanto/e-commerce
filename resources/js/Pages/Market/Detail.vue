@@ -13,7 +13,8 @@ const props = defineProps({
     status_satuan: String,
     satuan: Object,
     dataHarga: Object,
-    satuan_id: String
+    satuan_id: String,
+    totalKeranjang: String
 });
 
 const main   = ref();
@@ -140,7 +141,7 @@ function addKeranjang(){
 
 <template>
     <Head title="Kategori" />
-    <Header :category_id="category_id" :search="search" :smaSetting="smaSetting" />
+    <Header :category_id="category_id"  :totalKeranjang="totalKeranjang"  :search="search" :smaSetting="smaSetting" />
     <!-- Kategori -->
     <div class="w-full px-5 md:px-20 pt-14 bg-[#f0f0f0] pb-20">
 
@@ -211,7 +212,7 @@ function addKeranjang(){
                         </span>
                     </div>
                 </div>
-                <div v-html="product.product_details" class="h-[460px] overflow-auto"></div>
+                <div v-html="product.product_details" class="max-h-[460px] overflow-auto"></div>
                 <div >
                     <div>Jumlah Produk</div>
                     <div class="flex">

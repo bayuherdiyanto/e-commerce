@@ -14,7 +14,8 @@ const props = defineProps({
     customer: Object,
     tipeCustomer: String,
     smaSetting: Object,
-    qtyItem: Object
+    qtyItem: Object,
+    totalKeranjang: String
 });
 
 let kodePelanggan = ref(props.kodePelanggan);
@@ -27,7 +28,8 @@ watch([kodePelanggan, noHp, promo], (value) => {
         { 
             kodePelanggan: value[0],
             noHp: value[1],
-            promo: value[2]
+            promo: value[2],
+            idx:1
         },
         {
             preserveState: true,
@@ -197,7 +199,7 @@ function changeQty(detail_id){
 
 <template>
     <Head title="Kategori" />
-    <Header :category_id="category_id" :search="search" :smaSetting="smaSetting" />
+    <Header :category_id="category_id" :totalKeranjang="totalKeranjang" :search="search" :smaSetting="smaSetting" />
     <!-- Kategori -->
     <div class="w-full px-5 md:px-20 pt-14 bg-[#f0f0f0] pb-20">
         <h2 class="font-bold text-[30px]">Keranjang Belanja</h2>
