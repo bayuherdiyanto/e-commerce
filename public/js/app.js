@@ -26808,6 +26808,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Components_Header_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/Components/Header.vue */ "./resources/js/Components/Header.vue");
 /* harmony import */ var _Components_Pagination_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/Components/Pagination.vue */ "./resources/js/Components/Pagination.vue");
 /* harmony import */ var _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 
 
@@ -26843,6 +26852,31 @@ __webpack_require__.r(__webpack_exports__);
         preserveState: true
       });
     });
+
+    // Popup state
+    var showPopup = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(false);
+    var selectedProduct = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(null);
+    var selectedQty = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(1);
+    var selectedSatuan = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(null);
+    var productData = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(null);
+    var satuanOptions = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([]);
+    var dataHarga = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)({});
+
+    // Toast notification
+    var Toast = Swal.mixin({
+      toast: true,
+      icon: 'success',
+      title: 'General Title',
+      animation: false,
+      position: 'top-right',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: function didOpen(toast) {
+        toast.addEventListener('mouseenter', Swal.stopTimer);
+        toast.addEventListener('mouseleave', Swal.resumeTimer);
+      }
+    });
     function number_format(number, decimals, dec_point, thousands_sep) {
       // Strip all characters but numerical ones.
       number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
@@ -26874,10 +26908,145 @@ __webpack_require__.r(__webpack_exports__);
         preserveState: true
       });
     }
-    function changeProduct(id) {
-      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_4__.Inertia.get("/detail/" + id, {}, {
-        onFinish: function onFinish() {},
-        preserveState: true
+
+    // Function to open popup and load product data
+    function openAddToCartPopup(_x) {
+      return _openAddToCartPopup.apply(this, arguments);
+    } // Function to close popup
+    function _openAddToCartPopup() {
+      _openAddToCartPopup = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(product) {
+        var response, data;
+        return _regeneratorRuntime().wrap(function _callee$(_context) {
+          while (1) switch (_context.prev = _context.next) {
+            case 0:
+              selectedProduct.value = product;
+              selectedQty.value = 1;
+              showPopup.value = true;
+
+              // Load detailed product data
+              _context.prev = 3;
+              _context.next = 6;
+              return fetch("/detail-product-data/".concat(product.id));
+            case 6:
+              response = _context.sent;
+              _context.next = 9;
+              return response.json();
+            case 9:
+              data = _context.sent;
+              if (data.success) {
+                productData.value = data.product;
+                satuanOptions.value = data.satuan || [];
+                dataHarga.value = data.dataHarga || {};
+
+                // Set default satuan
+                if (data.product && data.product.id_satuan) {
+                  selectedSatuan.value = data.product.id_satuan;
+                } else if (satuanOptions.value.length > 0) {
+                  selectedSatuan.value = satuanOptions.value[0].id;
+                }
+              } else {
+                console.error('Failed to load product data:', data.message);
+                // Fallback to basic product data
+                productData.value = _objectSpread(_objectSpread({}, product), {}, {
+                  brand_name: '',
+                  category_name: '',
+                  price: "Rp. " + number_format(product.price, 0, '.', '.')
+                });
+                selectedSatuan.value = null;
+              }
+              _context.next = 18;
+              break;
+            case 13:
+              _context.prev = 13;
+              _context.t0 = _context["catch"](3);
+              console.error('Error loading product data:', _context.t0);
+              // Fallback to basic product data
+              productData.value = _objectSpread(_objectSpread({}, product), {}, {
+                brand_name: '',
+                category_name: '',
+                price: "Rp. " + number_format(product.price, 0, '.', '.')
+              });
+              selectedSatuan.value = null;
+            case 18:
+            case "end":
+              return _context.stop();
+          }
+        }, _callee, null, [[3, 13]]);
+      }));
+      return _openAddToCartPopup.apply(this, arguments);
+    }
+    function closePopup() {
+      showPopup.value = false;
+      selectedProduct.value = null;
+      selectedQty.value = 1;
+      selectedSatuan.value = null;
+      productData.value = null;
+      satuanOptions.value = [];
+      dataHarga.value = {};
+    }
+
+    // Function to change quantity
+    function changeQty() {
+      selectedQty.value = number_format(selectedQty.value, 0, '', '');
+    }
+    function tambahQty() {
+      selectedQty.value = parseInt(selectedQty.value) + 1;
+    }
+    function kurangQty() {
+      if (selectedQty.value > 1) {
+        selectedQty.value = parseInt(selectedQty.value) - 1;
+      }
+    }
+
+    // Function to change satuan
+    function changeSatuan() {
+      // Update price based on selected satuan
+      if (dataHarga.value[selectedSatuan.value]) {
+        productData.value.price = dataHarga.value[selectedSatuan.value].hargaRp;
+      }
+    }
+
+    // Function to add to cart
+    function addToCart() {
+      if (!selectedProduct.value || selectedQty.value <= 0) {
+        return;
+      }
+      var harga = 0;
+      var id_satuan = null;
+
+      // If there are satuan options, use selected satuan
+      if (satuanOptions.value.length > 0 && selectedSatuan.value) {
+        var _dataHarga$value$sele;
+        harga = ((_dataHarga$value$sele = dataHarga.value[selectedSatuan.value]) === null || _dataHarga$value$sele === void 0 ? void 0 : _dataHarga$value$sele.harga) || 0;
+        id_satuan = selectedSatuan.value;
+      } else {
+        var _productData$value;
+        // Use default product price
+        harga = selectedProduct.value.price;
+        id_satuan = ((_productData$value = productData.value) === null || _productData$value === void 0 ? void 0 : _productData$value.id_satuan) || null;
+      }
+      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_4__.Inertia.post("/addKeranjang", {
+        qty: selectedQty.value,
+        product_id: selectedProduct.value.id,
+        id_satuan: id_satuan,
+        harga: harga
+      }, {
+        onSuccess: function onSuccess() {
+          Toast.fire({
+            icon: 'success',
+            title: 'Produk berhasil ditambahkan ke keranjang!'
+          });
+          closePopup();
+        },
+        onError: function onError(errors) {
+          Toast.fire({
+            icon: 'error',
+            title: 'Gagal menambahkan ke keranjang'
+          });
+        },
+        preserveState: true,
+        preserveScroll: true,
+        replace: true
       });
     }
     var __returned__ = {
@@ -26890,9 +27059,28 @@ __webpack_require__.r(__webpack_exports__);
       set searchLocal(v) {
         searchLocal = v;
       },
+      showPopup: showPopup,
+      selectedProduct: selectedProduct,
+      selectedQty: selectedQty,
+      selectedSatuan: selectedSatuan,
+      productData: productData,
+      satuanOptions: satuanOptions,
+      dataHarga: dataHarga,
+      get Toast() {
+        return Toast;
+      },
+      set Toast(v) {
+        Toast = v;
+      },
       number_format: number_format,
       changeKategory: changeKategory,
-      changeProduct: changeProduct,
+      openAddToCartPopup: openAddToCartPopup,
+      closePopup: closePopup,
+      changeQty: changeQty,
+      tambahQty: tambahQty,
+      kurangQty: kurangQty,
+      changeSatuan: changeSatuan,
+      addToCart: addToCart,
       get Head() {
         return _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_0__.Head;
       },
@@ -27666,7 +27854,8 @@ var _hoisted_5 = {
   "class": "flex-col flex-grow pb-4 md:pb-0 hidden md:flex md:justify-end md:flex-row"
 };
 var _hoisted_6 = {
-  "class": "absolute top-0 right-1 text-[12px] font-bold h-5 w-5 text-center bg-red-500 rounded-full"
+  "class": "absolute top-0 right-1 text-[12px] font-bold h-5 w-5 text-center bg-red-500 rounded-full",
+  "data-cart-count": ""
 };
 var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
   xmlns: "http://www.w3.org/2000/svg",
@@ -27708,7 +27897,8 @@ var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 }, " Promo ", -1 /* HOISTED */);
 var _hoisted_17 = ["href"];
 var _hoisted_18 = {
-  "class": "absolute top-0 right-1 text-[12px] font-bold h-5 w-5 text-center bg-red-500 rounded-full"
+  "class": "absolute top-0 right-1 text-[12px] font-bold h-5 w-5 text-center bg-red-500 rounded-full",
+  "data-cart-count": ""
 };
 var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
   xmlns: "http://www.w3.org/2000/svg",
@@ -29697,6 +29887,79 @@ var _hoisted_19 = {
 var _hoisted_20 = {
   "class": "md:px-5"
 };
+var _hoisted_21 = {
+  key: 0,
+  "class": "fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+};
+var _hoisted_22 = {
+  "class": "bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto"
+};
+var _hoisted_23 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+  "class": "text-lg font-semibold text-gray-900"
+}, "Tambah ke Keranjang", -1 /* HOISTED */);
+var _hoisted_24 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
+  "class": "w-6 h-6",
+  fill: "none",
+  stroke: "currentColor",
+  viewBox: "0 0 24 24"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("path", {
+  "stroke-linecap": "round",
+  "stroke-linejoin": "round",
+  "stroke-width": "2",
+  d: "M6 18L18 6M6 6l12 12"
+})], -1 /* HOISTED */);
+var _hoisted_25 = [_hoisted_24];
+var _hoisted_26 = {
+  key: 0,
+  "class": "p-4"
+};
+var _hoisted_27 = {
+  "class": "flex justify-center mb-4"
+};
+var _hoisted_28 = ["src"];
+var _hoisted_29 = ["src"];
+var _hoisted_30 = {
+  "class": "text-center mb-4"
+};
+var _hoisted_31 = {
+  "class": "text-lg font-semibold text-gray-900 mb-2"
+};
+var _hoisted_32 = {
+  key: 0,
+  "class": "text-sm text-gray-600 mb-2"
+};
+var _hoisted_33 = {
+  "class": "text-xl font-bold text-blue-600"
+};
+var _hoisted_34 = {
+  key: 0,
+  "class": "mb-4"
+};
+var _hoisted_35 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "block text-sm font-medium text-gray-700 mb-2"
+}, "Pilih Satuan:", -1 /* HOISTED */);
+var _hoisted_36 = ["value"];
+var _hoisted_37 = {
+  "class": "mb-6"
+};
+var _hoisted_38 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "class": "block text-sm font-medium text-gray-700 mb-2"
+}, "Jumlah:", -1 /* HOISTED */);
+var _hoisted_39 = {
+  "class": "flex items-center justify-center"
+};
+var _hoisted_40 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("svg", {
+  xmlns: "http://www.w3.org/2000/svg",
+  fill: "none",
+  viewBox: "0 0 24 24",
+  "stroke-width": "1.5",
+  stroke: "currentColor",
+  "class": "w-5 h-5"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("path", {
+  "stroke-linecap": "round",
+  "stroke-linejoin": "round",
+  d: "M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
+})], -1 /* HOISTED */);
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Head"], {
     title: "Home"
@@ -29730,9 +29993,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: item.id,
       onClick: function onClick($event) {
-        return $setup.changeProduct(item.id);
+        return $setup.openAddToCartPopup(item);
       },
-      "class": "relative flex flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md"
+      "class": "relative flex flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md cursor-pointer hover:shadow-lg transition-shadow duration-200"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [item.image1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
       key: 0,
       src: _ctx.route('image', {
@@ -29749,7 +30012,55 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     kata_kunci: $props.search,
     status_online: $props.status_online,
     links: $props.product.links
-  }, null, 8 /* PROPS */, ["kata_kunci", "status_online", "links"])])])], 64 /* STABLE_FRAGMENT */);
+  }, null, 8 /* PROPS */, ["kata_kunci", "status_online", "links"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Popup Modal untuk Add to Cart "), $setup.showPopup ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "flex justify-between items-center p-4 border-b"
+  }, [_hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: $setup.closePopup,
+    "class": "text-gray-400 hover:text-gray-600"
+  }, [].concat(_hoisted_25))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Content "), $setup.selectedProduct ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Product Image "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [$setup.selectedProduct.image1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
+    key: 0,
+    src: _ctx.route('image', {
+      'jenis': 'product1',
+      'id': $setup.selectedProduct.id
+    }),
+    "class": "w-32 h-32 object-cover rounded-lg"
+  }, null, 8 /* PROPS */, _hoisted_28)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
+    key: 1,
+    src: $setup.tidakTersedia.href,
+    "class": "w-32 h-32 object-cover rounded-lg"
+  }, null, 8 /* PROPS */, _hoisted_29))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Product Info "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.selectedProduct.name), 1 /* TEXT */), $setup.productData && $setup.productData.brand_name ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.productData.brand_name) + " - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.productData.category_name), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_33, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.productData ? $setup.productData.price : 'Rp. ' + $setup.number_format($setup.selectedProduct.price, 0, '.', '.')), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Satuan Selection "), $setup.satuanOptions.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_34, [_hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+      return $setup.selectedSatuan = $event;
+    }),
+    onChange: $setup.changeSatuan,
+    "class": "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.satuanOptions, function (satuan) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+      key: satuan.id,
+      value: satuan.id
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(satuan.name), 9 /* TEXT, PROPS */, _hoisted_36);
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $setup.selectedSatuan]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Quantity Selection "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [_hoisted_38, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: $setup.kurangQty,
+    "class": "flex items-center justify-center bg-gray-200 hover:bg-gray-300 border rounded-l-lg w-10 h-10 transition-colors"
+  }, " - "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "text",
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+      return $setup.selectedQty = $event;
+    }),
+    onChange: $setup.changeQty,
+    "class": "w-20 h-10 border-t border-b border-gray-300 text-center focus:outline-none focus:ring-2 focus:ring-blue-500"
+  }, null, 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.selectedQty]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: $setup.tambahQty,
+    "class": "flex items-center justify-center bg-gray-200 hover:bg-gray-300 border rounded-r-lg w-10 h-10 transition-colors"
+  }, " + ")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Action Buttons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "flex gap-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: $setup.closePopup,
+    "class": "flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors"
+  }, " Batal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: $setup.addToCart,
+    "class": "flex-1 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
+  }, [_hoisted_40, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Tambah ke Keranjang ")])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 64 /* STABLE_FRAGMENT */);
 }
 
 /***/ }),

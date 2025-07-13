@@ -32,6 +32,7 @@ Route::get('/kategori', [MarketController::class, 'kategory'])->name('kategori')
 Route::get('/produk', [MarketController::class, 'product'])->name('produk');
 Route::get('/promo', [MarketController::class, 'promo'])->name('promo');
 Route::get('/detail/{id}', [MarketController::class, 'detailProduct'])->name('detailProduct');
+Route::get('/detail-product-data/{id}', [MarketController::class, 'detailProductData'])->name('detailProductData');
 Route::get('/image/{jenis}/{id}', [ProductController::class, 'image'])->name('image');
 Route::post('/addKeranjang', [MarketController::class, 'addKeranjang'])->name('addKeranjang');
 Route::post('/deleteKeranjang', [MarketController::class, 'deleteKeranjang'])->name('deleteKeranjang');

@@ -52,7 +52,7 @@ const menuToogle = ref(false);
                 Promo
             </Link>
             <Link :href="route('keranjang')" class="relative px-4 py-2 mt-2 text-white text-sm font-semibold bg-transparent rounded-lg dark-mode:bg-transparent md:mt-0 md:ml-4 hover:text-gray-900 focus:text-gray-900 hover:bg-white focus:bg-gray-200 focus:outline-none focus:shadow-outline" href="#">
-                <div class="absolute top-0 right-1 text-[12px] font-bold h-5 w-5 text-center bg-red-500 rounded-full">
+                <div class="absolute top-0 right-1 text-[12px] font-bold h-5 w-5 text-center bg-red-500 rounded-full" data-cart-count>
                     {{totalKeranjang}}
                 </div>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -94,7 +94,7 @@ const menuToogle = ref(false);
                 Promo
             </a>
             <a :href="route('keranjang')" class="relative px-2 text-white font-bold py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg" href="#">
-                <div class="absolute top-0 right-1 text-[12px] font-bold h-5 w-5 text-center bg-red-500 rounded-full">
+                <div class="absolute top-0 right-1 text-[12px] font-bold h-5 w-5 text-center bg-red-500 rounded-full" data-cart-count>
                     {{totalKeranjang}}
                 </div>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">

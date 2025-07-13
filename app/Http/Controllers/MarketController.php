@@ -280,6 +280,56 @@ class MarketController extends Controller
         ]);
     }
 
+    public function detailProductData($id)
+    {
+        $product = Product::select(
+            'sma_products.id',
+            'sma_products.image1',
+            'sma_products.image2',
+            'sma_products.image3',
+            'sma_products.image4',
+            'sma_products.code',
+            'sma_products.name',
+            'sma_brands.name as brand_name',
+            'sma_categories.name as category_name',
+            'sma_products.status_online',
+            'sma_products.price',
+            'sma_products.product_details',
+            'sma_units.id as id_satuan',
+            'sma_units.code as code_satuan',
+            'sma_units.name as nama_satuan'
+        )
+            ->leftJoin('sma_brands', 'sma_brands.id', 'sma_products.brand')
+            ->leftJoin('sma_units', 'sma_units.id', 'sma_products.unit')
+            ->leftJoin('sma_categories', 'sma_categories.id', 'sma_products.category_id')
+            ->where('sma_products.id', $id)
+            ->first();
+
+        if (!$product) {
+            return response()->json(['success' => false, 'message' => 'Product not found']);
+        }
+
+        $dataHarga = $this->dataharga($id, 0);
+        $dataHarga[$product->id_satuan] = [
+            'id' => $product->id_satuan,
+            'hargaRp' => "Rp. " . number_format($product->price, 0, '.', '.'),
+            'harga' => $product->price
+        ];
+
+        $product->price = "Rp. " . number_format($product->price, 0, '.', '.');
+
+        $satuan = Satuan::select('sma_units.id', 'sma_units.name')->where('product_id', $id)
+            ->join('sma_units', 'sma_units.id', 'sma_satuan.unit_id')
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'product' => $product,
+            'satuan' => $satuan,
+            'dataHarga' => $dataHarga
+        ]);
+    }
+
     private function dataharga($id, $priceGroupId)
     {
         $dataHarga = [];
@@ -414,9 +464,8 @@ class MarketController extends Controller
             $keranjang->save();
         }
 
-        return Redirect::route('detailProduct', [
-            'id' => $request->product_id
-        ]);
+        // Redirect back to the current page instead of detail page
+        return redirect()->back();
     }
 
     public function deleteKeranjang(Request $request)
