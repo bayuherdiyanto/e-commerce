@@ -7,18 +7,35 @@ import { Inertia } from '@inertiajs/inertia';
 
 const tidakTersedia = new URL("../../../images/tidak_tersedia.jpg", import.meta.url);
 
-
-defineProps({
+const props = defineProps({
     category: Object,
     product: Object,
     search: String,
     status_online: String,
     category_id: String,
-    search: String,
     smaSetting: Object,
     totalKeranjang: Object
-})
+});
+
 const menuToogle = ref(false);
+
+// Tambahkan data lokal untuk search
+let searchLocal = ref(props.search);
+
+// Watch perubahan searchLocal dan trigger pencarian
+watch(searchLocal, (value) => {
+    Inertia.get(
+        "/market",
+        {
+            search: value,
+            category_id: props.category_id,
+        },
+        {
+            preserveState: true,
+        }
+    );
+});
+
 function number_format (number, decimals, dec_point, thousands_sep) {
     // Strip all characters but numerical ones.
     number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
@@ -42,6 +59,7 @@ function number_format (number, decimals, dec_point, thousands_sep) {
     }
     return s.join(dec);
 }
+
 function changeKategory(category_id){
     Inertia.get(
         "/produk",
@@ -77,6 +95,20 @@ function changeProduct(id){
     <Head title="Home" />
     <Header :category_id="category_id" :totalKeranjang="totalKeranjang" :search="search" :smaSetting="smaSetting" />
     
+    <!-- Search bar di bawah header -->
+    <div class="w-full px-5 md:px-20 pt-5 bg-[#f0f0f0] flex justify-center">
+        <div class="w-full relative">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-4">
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-6 h-6 text-gray-400"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            </span>
+            <input
+                type="text"
+                v-model.lazy="searchLocal"
+                placeholder="Cari Produk..."
+                class="w-full pl-14 pr-4 py-3 rounded-2xl shadow-lg bg-white border border-gray-200 focus:border-blue-400 focus:ring-2 focus:ring-blue-200 focus:outline-none text-lg transition-all duration-200 placeholder-gray-400"
+            >
+        </div>
+    </div>
     
     <!-- Kategori -->
     <div class="w-full px-5 md:px-20 pt-14 bg-[#f0f0f0]">

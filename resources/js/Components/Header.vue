@@ -6,7 +6,6 @@ import { Inertia } from '@inertiajs/inertia';
 const props = defineProps({
     category_id: String,
     search: String,
-    category_id: String,
     smaSetting: Object,
     totalKeranjang: String
 });
@@ -26,24 +25,6 @@ function changeKategory(category_id){
     );
 }
 
-let search = ref(props.search);
-let status_online = ref(props.status_online);
-let category_id = ref(props.category_id);
-watch([search, status_online], (value) => {
-
-    Inertia.get(
-        "/produk",
-        { 
-            search: value[0],
-            status_online: value[1],
-            category_id: value[2],
-        },
-        {
-            preserveState: true,
-        }
-    );
-});
-
 const menuToogle = ref(false);
 </script>
 
@@ -54,10 +35,6 @@ const menuToogle = ref(false);
                 <Link :href="route('market')">
                     {{ smaSetting.site_name }}
                 </Link>
-            </div>
-            <div class="hidden w-1/2 md:flex bg-[#d9d9d9] rounded-lg pl-2 py-0" style="border-radius:var(--Default-Border-Raius, 4px); border:1px solid var(--Light-Border, #E2E4EA); background:var(--Dominant, #FFF);">
-                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-6 h-6 text-black mt-1"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                <input type="text" v-model.lazy="search" placeholder="Cari Produk" class="w-full rounded-lg h-8 pt-0 pb-0 pl-2 focus:outline-0 searchbar-input border-none focus:ring-0">
             </div>
         </div>
         <div class="hidden md:block w-1/2">
@@ -95,14 +72,14 @@ const menuToogle = ref(false);
         </div>
     </div>
 
-    <div class=" sticky md:hidden top-0 item-center  justify-between w-full bg-blue-500 px-5 md:px-20 py-5 z-10">
+    <div class="sticky md:hidden top-0 item-center justify-between w-full bg-blue-500 px-5 md:px-20 py-5 z-10">
         <div class="flex bg-[#d9d9d9] rounded-lg pl-2 py-0 w-full" style="border-radius:var(--Default-Border-Raius, 4px); border:1px solid var(--Light-Border, #E2E4EA); background:var(--Dominant, #FFF);">
             <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-6 h-6 text-black mt-1"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-            <input v-model.lazy="search" type="text" placeholder="Cari Produk" class="w-full rounded-lg h-8 pt-0 pb-0 pl-2 focus:outline-0 searchbar-input border-none focus:ring-0">
+            <input type="text" placeholder="Cari Produk" class="w-full rounded-lg h-8 pt-0 pb-0 pl-2 focus:outline-0 searchbar-input border-none focus:ring-0">
         </div>
     </div>
     
-    <div v-show="menuToogle" class=" md:hidden w-full bg-blue-400">
+    <div v-show="menuToogle" class="md:hidden w-full bg-blue-400">
         <nav class="flex flex-col flex-grow p-5 md:pb-0 ">
             <Link :href="route('market')" :class="(route().current('market')) ? 'bg-blue-600' : 'bg-transparent'" class="px-2 text-white font-bold py-2 mt-2 text-sm font-semibold text-gray-900 rounded-lg  " >
                 Home
