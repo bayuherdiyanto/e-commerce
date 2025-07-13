@@ -1,6 +1,6 @@
 <script setup>
 import { Head, Link } from '@inertiajs/inertia-vue3';
-import { watch, ref } from 'vue';
+import { watch, ref, onMounted, onUnmounted } from 'vue';
 import Header from '@/Components/Header.vue';
 import Pagination from '@/Components/Pagination.vue';
 import { Inertia } from '@inertiajs/inertia';
@@ -22,16 +22,34 @@ const menuToogle = ref(false);
 // Tambahkan data lokal untuk search
 let searchLocal = ref(props.search);
 
+// Infinite scroll state
+const isLoading = ref(false);
+const hasMoreData = ref(true);
+const currentPage = ref(1);
+const allProducts = ref([...props.product.data]);
+
 // Watch perubahan searchLocal dan trigger pencarian
 watch(searchLocal, (value) => {
+    // Reset infinite scroll state when search changes
+    allProducts.value = [];
+    currentPage.value = 1;
+    hasMoreData.value = true;
+    isLoading.value = false;
+    
     Inertia.get(
-        "/market",
+        "/",
         {
             search: value,
             category_id: props.category_id,
         },
         {
             preserveState: true,
+            onSuccess: (page) => {
+                // Update products after search
+                if (page.props.product && page.props.product.data) {
+                    allProducts.value = [...page.props.product.data];
+                }
+            }
         }
     );
 });
@@ -99,6 +117,68 @@ function changeKategory(category_id){
         }
     );
 }
+
+// Function to load more data
+function loadMoreData() {
+    if (isLoading.value || !hasMoreData.value) return;
+    
+    isLoading.value = true;
+    const nextPage = currentPage.value + 1;
+    
+    Inertia.get(
+        "/",
+        {
+            page: nextPage,
+            search: searchLocal.value,
+            category_id: props.category_id || ''
+        },
+        {
+            onSuccess: (page) => {
+                if (page.props.product && page.props.product.data && page.props.product.data.length > 0) {
+                    allProducts.value = [...allProducts.value, ...page.props.product.data];
+                    currentPage.value = nextPage;
+                    
+                    // Check if there's more data
+                    if (page.props.product.current_page >= page.props.product.last_page) {
+                        hasMoreData.value = false;
+                    }
+                } else {
+                    hasMoreData.value = false;
+                }
+                isLoading.value = false;
+            },
+            onError: (errors) => {
+                console.error('Error loading more data:', errors);
+                hasMoreData.value = false;
+                isLoading.value = false;
+            },
+            preserveState: true,
+            preserveScroll: true,
+            replace: false
+        }
+    );
+}
+
+// Scroll event handler
+function handleScroll() {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+    
+    // Load more when user is near bottom (100px from bottom)
+    if (documentHeight - scrollTop - windowHeight < 100) {
+        loadMoreData();
+    }
+}
+
+// Mount and unmount scroll listener
+onMounted(() => {
+    window.addEventListener('scroll', handleScroll);
+});
+
+onUnmounted(() => {
+    window.removeEventListener('scroll', handleScroll);
+});
 
 // Function to open popup and load product data
 async function openAddToCartPopup(product) {
@@ -270,7 +350,7 @@ function addToCart() {
         <h2 class="font-bold text-[30px]">Produk</h2>
 
         <div class="grid grid-cols-2 md:grid-cols-5 grid-flow-row gap-4 gap-4">
-            <div v-for="(item, index) in product.data" :key="item.id" @click="openAddToCartPopup(item)" class="relative flex flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md cursor-pointer hover:shadow-lg transition-shadow duration-200">
+            <div v-for="(item, index) in allProducts" :key="item.id" @click="openAddToCartPopup(item)" class="relative flex flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md cursor-pointer hover:shadow-lg transition-shadow duration-200">
                 <div class="relative mx-3 mt-3 h-32 md:h-48 overflow-hidden rounded-xl bg-white bg-clip-border text-gray-700">
                     <img v-if="item.image1" :src="route('image', { 'jenis' : 'product1' , 'id' : item.id })" class="h-full w-full object-cover" />
                     <img v-else :src="tidakTersedia.href" />
@@ -287,9 +367,33 @@ function addToCart() {
                 </div>
             </div>
         </div>
-        <div class="md:px-5">
-            <pagination class="mt-10 w-full flex justify-center mt-5" :kata_kunci="search" :status_online="status_online" :links="product.links" />
+        
+        <!-- Loading indicator for infinite scroll -->
+        <div v-if="isLoading" class="flex justify-center items-center py-8">
+            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+            <span class="ml-3 text-gray-600">Memuat produk...</span>
         </div>
+        
+        <!-- End of data indicator -->
+        <div v-if="!hasMoreData && allProducts.length > 0" class="text-center py-8 text-gray-500">
+            <p>Tidak ada produk lagi untuk ditampilkan</p>
+        </div>
+        
+        <!-- Empty state -->
+        <div v-if="!isLoading && allProducts.length === 0" class="text-center py-12">
+            <div class="text-gray-500">
+                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                </svg>
+                <h3 class="mt-2 text-sm font-medium text-gray-900">Tidak ada produk</h3>
+                <p class="mt-1 text-sm text-gray-500">Coba ubah kata kunci pencarian Anda.</p>
+            </div>
+        </div>
+        
+        <!-- Pagination hidden -->
+        <!-- <div class="md:px-5">
+            <pagination class="mt-10 w-full flex justify-center mt-5" :kata_kunci="search" :status_online="status_online" :links="product.links" />
+        </div> -->
     </div>
 
     <!-- Popup Modal untuk Add to Cart -->

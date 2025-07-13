@@ -81,6 +81,7 @@ class MarketController extends Controller
         $keranjang_id = session()->get('keranjang');
         $totalKeranjang = KeranjangDetail::where("id_keranjang", $keranjang_id)->get()->count();
         $smaSetting = SmaSetting::find(1);
+        
         return Inertia::render('Market/Main', [
             'product' => $product,
             'search' => $keyword,

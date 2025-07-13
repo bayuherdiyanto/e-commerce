@@ -941,6 +941,9 @@ select {
 .w-11\/12 {
   width: 91.666667%;
 }
+.w-12 {
+  width: 3rem;
+}
 .w-2\/3 {
   width: 66.666667%;
 }
@@ -1022,6 +1025,15 @@ select {
 }
 .transform {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+@keyframes spin {
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+.animate-spin {
+  animation: spin 1s linear infinite;
 }
 .cursor-default {
   cursor: default;
@@ -1170,6 +1182,10 @@ select {
 .border-\[\#c9c9c9\] {
   --tw-border-opacity: 1;
   border-color: rgb(201 201 201 / var(--tw-border-opacity));
+}
+.border-blue-500 {
+  --tw-border-opacity: 1;
+  border-color: rgb(59 130 246 / var(--tw-border-opacity));
 }
 .border-gray-100 {
   --tw-border-opacity: 1;
@@ -1352,6 +1368,10 @@ select {
 .py-6 {
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
+}
+.py-8 {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 .pb-0 {
   padding-bottom: 0px;
