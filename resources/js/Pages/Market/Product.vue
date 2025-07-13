@@ -4,6 +4,8 @@ import { watch, ref } from 'vue';
 import Header from '@/Components/Header.vue';
 import Pagination from '@/Components/Pagination.vue';
 import { Inertia } from '@inertiajs/inertia';
+import BottomNav from '@/Components/BottomNav.vue';
+
 const props = defineProps({
     category: Object,
     product: Object,
@@ -170,5 +172,6 @@ function changeProduct(id){
         </div>
         
     </div>
+    <BottomNav />
 </template>
 

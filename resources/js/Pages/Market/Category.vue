@@ -3,6 +3,7 @@ import { Head, Link } from '@inertiajs/inertia-vue3';
 import { watch, ref } from 'vue';
 import Header from '@/Components/Header.vue';
 import { Inertia } from '@inertiajs/inertia';
+import BottomNav from '@/Components/BottomNav.vue';
 
 const props = defineProps({
     category: Object,
@@ -72,5 +73,6 @@ function changeKategory(category_id){
             </div>
         </div>
     </div>
+    <BottomNav />
 </template>
 

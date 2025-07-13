@@ -2,6 +2,7 @@
 import { Head, Link } from '@inertiajs/inertia-vue3';
 import { watch, ref } from 'vue';
 import Header from '@/Components/Header.vue';
+import BottomNav from '@/Components/BottomNav.vue';
 import { Inertia } from '@inertiajs/inertia';
 
 const props = defineProps({
@@ -284,5 +285,6 @@ function changeQty(detail_id){
             </div>
         </div>
     </div>
+    <BottomNav />
 </template>
 

@@ -2,6 +2,7 @@
 import { Head, Link } from '@inertiajs/inertia-vue3';
 import { watch, ref } from 'vue';
 import Header from '@/Components/Header.vue';
+import BottomNav from '@/Components/BottomNav.vue';
 import { Inertia } from '@inertiajs/inertia';
 
 const props = defineProps({
@@ -12,8 +13,8 @@ const props = defineProps({
 </script>
 
 <template>
-    <Head title="Kategori" />
-    <Header :category_id="category_id" :totalKeranjang="totalKeranjang" :search="search" :smaSetting="smaSetting" />
+    <Head title="Promo" />
+    <Header :totalKeranjang="totalKeranjang" :smaSetting="smaSetting" />
     <!-- Kategori -->
     <div class="w-full px-5 md:px-20 pt-14 bg-[#f0f0f0] pb-20">
         <h2 class="font-bold text-[30px]">Voucher</h2>
@@ -35,5 +36,6 @@ const props = defineProps({
             </div>
         </div>
     </div>
+    <BottomNav />
 </template>
 

@@ -6,6 +6,7 @@ import BreezeDropdownLink from '@/Components/DropdownLink.vue';
 import BreezeNavLink from '@/Components/NavLink.vue';
 import BreezeResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/inertia-vue3';
+import BottomNav from '@/Components/BottomNav.vue';
 
 const showingNavigationDropdown = ref(false);
 </script>
@@ -123,6 +124,7 @@ const showingNavigationDropdown = ref(false);
             <main>
                 <slot />
             </main>
+            <BottomNav />
         </div>
     </div>
 </template>

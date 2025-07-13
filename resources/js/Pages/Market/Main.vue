@@ -4,6 +4,7 @@ import { watch, ref, onMounted, onUnmounted } from 'vue';
 import Header from '@/Components/Header.vue';
 import Pagination from '@/Components/Pagination.vue';
 import { Inertia } from '@inertiajs/inertia';
+import BottomNav from '@/Components/BottomNav.vue';
 
 const tidakTersedia = new URL("../../../images/tidak_tersedia.jpg", import.meta.url);
 
@@ -488,5 +489,6 @@ function addToCart() {
             </div>
         </div>
     </div>
+    <BottomNav />
 </template>
 
