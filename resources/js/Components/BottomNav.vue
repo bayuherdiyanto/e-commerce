@@ -1,3 +1,4 @@
+
 <template>
   <nav class="fixed bottom-0 left-0 right-0 z-40 bg-white border-t shadow flex justify-between items-center px-2 py-1" style="display: flex;">
     <!-- Home -->
@@ -18,7 +19,9 @@
     </div>
     <!-- Promo -->
     <Link :href="route('promo')" class="flex flex-col items-center flex-1 py-2" :class="{ 'text-blue-600': isActive('promo') }">
-      <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a5 5 0 00-10 0v2a2 2 0 00-2 2v5a2 2 0 002 2h10a2 2 0 002-2v-5a2 2 0 00-2-2zm-5 4v2m0 0h.01"/></svg>
+      <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M17 7L7 17M9 7a2 2 0 11-4 0 2 2 0 014 0zm10 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+      </svg>
       <span class="text-xs">PROMO</span>
     </Link>
     <!-- Cart -->

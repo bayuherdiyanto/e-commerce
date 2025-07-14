@@ -42,14 +42,9 @@ class MarketController extends Controller
         if ($request->category_id != "") {
             $category_id = $request->category_id;
         }
-        // dd($request->all());
         $product = Product::select(
             'sma_products.id',
             'sma_products.image1',
-            // 'sma_products.image2',
-            // 'sma_products.image3',
-            // 'sma_products.image4',
-            // 'sma_products.code',
             'sma_products.name',
             'sma_brands.name as brand_name',
             'sma_categories.name as category_name',
@@ -66,14 +61,34 @@ class MarketController extends Controller
             ->orderBy('sma_products.status_atas', 'desc')
             ->paginate(10);
 
-
+        // Tambahkan satuan dan harga ke setiap produk
+        $product->getCollection()->transform(function ($item) {
+            $satuanHarga = $this->dataharga($item->id, 0); // 0 = default price group
+            // Jika tidak ada satuan di tabel satuan, tambahkan satuan utama dari produk
+            if (empty($satuanHarga) || count($satuanHarga) === 0) {
+                // Ambil satuan utama dari produk
+                $mainUnit = \DB::table('sma_products')
+                    ->leftJoin('sma_units', 'sma_units.id', '=', 'sma_products.unit')
+                    ->where('sma_products.id', $item->id)
+                    ->select('sma_units.id as id', 'sma_units.name as name')
+                    ->first();
+                $satuanHarga = [];
+                if ($mainUnit) {
+                    $satuanHarga[$mainUnit->id] = [
+                        'id' => $mainUnit->id,
+                        'name' => $mainUnit->name,
+                        'hargaRp' => 'Rp. ' . number_format($item->price, 0, '.', '.'),
+                        'harga' => $item->price
+                    ];
+                }
+            }
+            $item->satuan_harga = $satuanHarga;
+            return $item;
+        });
 
         $category = Category::select(
             'id',
-            // 'code',
             'name',
-            // 'status_online',
-            // 'status_home',
             'warna_bg'
         )->where('status_online', 1)
             ->where('status_home', 1)->get();
@@ -311,11 +326,23 @@ class MarketController extends Controller
         }
 
         $dataHarga = $this->dataharga($id, 0);
-        $dataHarga[$product->id_satuan] = [
-            'id' => $product->id_satuan,
-            'hargaRp' => "Rp. " . number_format($product->price, 0, '.', '.'),
-            'harga' => $product->price
-        ];
+        // Jika tidak ada satuan di tabel satuan, tambahkan satuan utama dari produk
+        if (empty($dataHarga) || count($dataHarga) === 0) {
+            $mainUnit = \DB::table('sma_products')
+                ->leftJoin('sma_units', 'sma_units.id', '=', 'sma_products.unit')
+                ->where('sma_products.id', $product->id)
+                ->select('sma_units.id as id', 'sma_units.name as name')
+                ->first();
+            $dataHarga = [];
+            if ($mainUnit) {
+                $dataHarga[$mainUnit->id] = [
+                    'id' => $mainUnit->id,
+                    'name' => $mainUnit->name,
+                    'hargaRp' => 'Rp. ' . number_format($product->price, 0, '.', '.'),
+                    'harga' => $product->price
+                ];
+            }
+        }
 
         $product->price = "Rp. " . number_format($product->price, 0, '.', '.');
 
@@ -346,22 +373,15 @@ class MarketController extends Controller
                     ->where('price_group_id', $priceGroupId)
                     ->first();
 
-                if ($hargaSatuan) {
-                    $dataHarga[$row->id] = [
-                        'id' => $row->id,
-                        'hargaRp' => "Rp. " . number_format($hargaSatuan->product_prices, 0, '.', '.'),
-                        'harga' => $hargaSatuan->product_prices
-                    ];
-                } else {
-                    $dataHarga[$row->id] = [
-                        'id' => $row->id,
-                        'hargaRp' => "Rp 0",
-                        'harga' => "0"
-                    ];
-                }
+                $dataHarga[$row->id] = [
+                    'id' => $row->id,
+                    'name' => $row->name, // tambahkan nama satuan
+                    'hargaRp' => "Rp. " . number_format($hargaSatuan ? $hargaSatuan->product_prices : 0, 0, '.', '.'),
+                    'harga' => $hargaSatuan ? $hargaSatuan->product_prices : 0
+                ];
             }
         }
-
+        
         return $dataHarga;
     }
 

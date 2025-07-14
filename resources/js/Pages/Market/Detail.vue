@@ -5,6 +5,7 @@ import Header from '@/Components/Header.vue';
 import { Inertia } from '@inertiajs/inertia';
 import { Splide, SplideSlide } from '@splidejs/vue-splide';
 import { defineComponent, onMounted } from 'vue';
+import BottomNav from '@/Components/BottomNav.vue';
 
 const props = defineProps({
     product: Object,
@@ -240,5 +241,6 @@ function addKeranjang(){
             
         </div>
     </div>
+    <BottomNav />
 </template>
 

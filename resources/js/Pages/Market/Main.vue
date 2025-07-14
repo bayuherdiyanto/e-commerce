@@ -308,6 +308,27 @@ function addToCart() {
         }
     );
 }
+
+// Helper filter to get satuan name by id (from satuan_harga)
+function satuanName(item) {
+    return function(id) {
+        // Try to get satuan name from satuan_harga
+        if (item.satuan_harga && item.satuan_harga[id] && item.satuan_harga[id].name) {
+            return item.satuan_harga[id].name;
+        }
+        // Fallback: just show id
+        return id;
+    }
+}
+
+function formatHargaSatuan(harga, satuan) {
+    // Format: 25.000 / pcs
+    return number_format(harga, 0, '.', '.') + ' / ' + satuan;
+}
+
+function goToDetail(id) {
+    Inertia.get(`/detail/${id}`);
+}
 </script>
 
 <template>
@@ -351,20 +372,33 @@ function addToCart() {
         <h2 class="font-bold text-[30px]">Produk</h2>
 
         <div class="grid grid-cols-2 md:grid-cols-5 grid-flow-row gap-4 gap-4">
-            <div v-for="(item, index) in allProducts" :key="item.id" @click="openAddToCartPopup(item)" class="relative flex flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md cursor-pointer hover:shadow-lg transition-shadow duration-200">
+            <div v-for="(item, index) in allProducts" :key="item.id" class="relative flex flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md hover:shadow-lg transition-shadow duration-200">
                 <div class="relative mx-3 mt-3 h-32 md:h-48 overflow-hidden rounded-xl bg-white bg-clip-border text-gray-700">
                     <img v-if="item.image1" :src="route('image', { 'jenis' : 'product1' , 'id' : item.id })" class="h-full w-full object-cover" />
                     <img v-else :src="tidakTersedia.href" />
                 </div>
-                <div class="p-3">
-                    <div >
-                        <div class="block text-[12px] md:text-[14px] h-12 font-sans text-base font-medium leading-relaxed text-blue-gray-900 antialiased">
+                <div class="p-3 pb-3 flex-1 flex flex-col justify-between">
+                    <div>
+                        <div class="block text-[12px] md:text-[14px] h-12 font-sans text-base font-bold leading-relaxed text-blue-gray-900 antialiased cursor-pointer hover:underline"
+                            @click="goToDetail(item.id)">
                             {{ item.name }}
                         </div>
-                        <div class="font-bold block font-sans text-base leading-relaxed text-blue-gray-900 antialiased">
-                            Rp. {{ number_format(item.price,0,'.','.') }}
+                        <!-- Harga dan satuan -->
+                        <div class="mt-2 space-y-1">
+                            <div v-for="(satuan, idx) in Object.values(item.satuan_harga || {})" :key="satuan.id" class="flex items-center gap-1">
+                                <span class="font-bold">{{ satuan.hargaRp }}</span>
+                                <span class="text-xs text-gray-500">/{{ satuan.name ? satuan.name : satuan.id }}</span>
+                            </div>
+                            <div v-if="!item.satuan_harga || Object.keys(item.satuan_harga).length === 0" class="flex items-center gap-1">
+                                <span class="font-bold">Rp. {{ number_format(item.price,0,'.','.') }}</span>
+                            </div>
                         </div>
                     </div>
+                    <!-- Tombol tambah -->
+                    <button @click="openAddToCartPopup(item)" class="mt-4 w-full flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white rounded-lg py-2 font-semibold shadow focus:outline-none transition-all">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+                        Tambah
+                    </button>
                 </div>
             </div>
         </div>
@@ -426,21 +460,18 @@ function addToCart() {
                 <div class="text-center mb-4">
                     <h4 class="text-lg font-semibold text-gray-900 mb-2">{{ selectedProduct.name }}</h4>
                     <p v-if="productData && productData.brand_name" class="text-sm text-gray-600 mb-2">{{ productData.brand_name }} - {{ productData.category_name }}</p>
-                    <p class="text-xl font-bold text-blue-600">{{ productData ? productData.price : 'Rp. ' + number_format(selectedProduct.price, 0, '.', '.') }}</p>
+                    <p class="text-xl font-bold text-blue-600">{{ dataHarga && selectedSatuan && dataHarga[selectedSatuan] ? formatHargaSatuan(dataHarga[selectedSatuan].harga, dataHarga[selectedSatuan].name) : (productData ? productData.price : number_format(selectedProduct.price, 0, '.', '.')) }}</p>
                 </div>
 
-                <!-- Satuan Selection -->
-                <div class="mb-4" v-if="satuanOptions.length > 0">
+                <!-- Satuan Selection (radio list jika lebih dari satu, tampilkan saja jika satu) -->
+                <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Pilih Satuan:</label>
-                    <select 
-                        v-model="selectedSatuan" 
-                        @change="changeSatuan"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    >
-                        <option v-for="satuan in satuanOptions" :key="satuan.id" :value="satuan.id">
-                            {{ satuan.name }}
-                        </option>
-                    </select>
+                    <div class="flex flex-col gap-2">
+                        <label v-for="(satuan, idx) in Object.values(dataHarga)" :key="satuan.id" class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" :value="satuan.id" v-model="selectedSatuan" @change="changeSatuan" />
+                            <span class="font-semibold">{{ formatHargaSatuan(satuan.harga, satuan.name) }}</span>
+                        </label>
+                    </div>
                 </div>
 
                 <!-- Quantity Selection -->
